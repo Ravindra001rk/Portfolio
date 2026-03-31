@@ -19,18 +19,6 @@ export default function Navbar() {
   const { scrollY } = useScroll();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Transparent at top, glassmorphic as you scroll
-  const bg = useTransform(
-    scrollY,
-    [0, 100],
-    ["rgba(18, 18, 18, 0)", "rgba(18, 18, 18, 0.8)"]
-  );
-  const border = useTransform(
-    scrollY,
-    [0, 100],
-    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.1)"]
-  );
-
   const navLinks = ["Services", "Work", "About", "Experience", "Testimonials", "Contact"];
 
   return (

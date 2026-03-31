@@ -170,7 +170,7 @@ export default function ProjectCaseStudy({
       {/* ── Next Project Footer ── */}
       <section className="py-32 px-6 flex flex-col items-center justify-center border-t border-white/10 text-center">
         <p className="text-xs tracking-[0.3em] uppercase text-zinc-500 mb-6 font-semibold">
-          What's Next
+          What&apos;s Next
         </p>
         <Link
           href="/#work"

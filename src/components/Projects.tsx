@@ -3,7 +3,6 @@ import React, { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { gsap } from "gsap";
 import {
-  ArrowUpRight,
   ChevronRight,
   ExternalLink,
 } from "lucide-react";
@@ -50,8 +49,6 @@ function SplitTitle({
 // ── Main Component ─────────────────────────────────────────────────────────
 export default function Projects() {
   const titleRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(cardRef, { once: true, margin: "-5%" });
 
   // GSAP magnetic hover on the CTA button
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -103,7 +100,7 @@ export default function Projects() {
 
       {/* ── Project Cards ── */}
       <div className="px-6 md:px-16 lg:px-24 pb-32 flex flex-col gap-16">
-        {projects.map((project, idx) => (
+        {projects.map((project) => (
           <motion.div
             key={project.id}
             initial={{ opacity: 0, y: 60 }}

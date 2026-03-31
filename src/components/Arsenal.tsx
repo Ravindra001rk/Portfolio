@@ -49,8 +49,8 @@ export default function Arsenal() {
 
     // Only scroll if not hovered and not manually dragged
     if (!isHovered && !isDragging) {
-      let moveBy = 0.5 * (delta / 10); // Smooth velocity relative to frame timing
-      let currentX = x.get() - moveBy;
+      const moveBy = 0.5 * (delta / 10); // Smooth velocity relative to frame timing
+      const currentX = x.get() - moveBy;
       
       // wrap seamlessly loops between [-contentWidth, 0]
       x.set(wrap(-contentWidth, 0, currentX));
