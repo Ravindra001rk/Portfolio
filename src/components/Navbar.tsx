@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import {
   motion,
-  useScroll,
   AnimatePresence,
 } from "framer-motion";
 import { FileText, Menu, X } from "lucide-react";
