@@ -59,12 +59,12 @@ export default function Arsenal() {
 
   return (
     <section className="w-full bg-[#121212] py-24 md:py-32 flex flex-col items-center border-t border-white/5 z-20 relative overflow-hidden">
-      <div className="w-full px-4 md:px-12 flex flex-col items-center md:items-start text-center md:text-left">
+      <div className="w-full px-6 md:px-16 lg:px-24 flex flex-col items-center md:items-start text-center md:text-left">
        <div className="max-w-7xl mx-auto w-full md:mx-0">
          <p className="text-zinc-500 font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2">
           Technologies & Tools
         </p>
-        <h2 className="text-4xl md:text-6xl font-black text-white mb-16 tracking-tighter">
+        <h2 className="text-4xl md:text-6xl font-black text-zinc-300 mb-16 tracking-tighter">
           My Arsenal
         </h2>
        </div>

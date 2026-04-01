@@ -39,8 +39,16 @@ export const projects: Project[] = [
     slug: "id-card-system",
     category: "Featured Case Study",
     title: "A complete system for ID cards, photo retrieval and workflows.",
-    shortDesc: "A full-stack platform handling thousands of Office & School ID card applications with bilingual forms, real-time tracking, and automated SMS notifications.",
-    tags: ["React", "Node.js", "MongoDB", "Sparrow SMS", "Cloudinary", "Vercel"],
+    shortDesc:
+      "A full-stack platform handling thousands of Office & School ID card applications with bilingual forms, real-time tracking, and automated SMS notifications.",
+    tags: [
+      "React",
+      "Node.js",
+      "MongoDB",
+      "Sparrow SMS",
+      "Cloudinary",
+      "Vercel",
+    ],
     liveUrl: "https://www.kritisublimation.com.np/",
     heroImage: "/download.png",
     features: [

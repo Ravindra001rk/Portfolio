@@ -5,126 +5,128 @@ import { useTransform, MotionValue } from "framer-motion";
 interface ScrollyCanvasProps {
   scrollYProgress: MotionValue<number>;
   numFrames?: number;
+  onLoadProgress?: (pct: number) => void;
 }
 
-export default function ScrollyCanvas({ scrollYProgress, numFrames = 89, onLoadProgress }: ScrollyCanvasProps & { onLoadProgress?: (pct: number) => void }) {
+export default function ScrollyCanvas({
+  scrollYProgress,
+  numFrames = 120,
+  onLoadProgress,
+}: ScrollyCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  // Ref holds all image elements immediately — renderer always sees latest loaded frames
+  const imagesRef = useRef<HTMLImageElement[]>([]);
   const [loaded, setLoaded] = useState(false);
 
-  // Map 0 -> 1 scroll to frame indices
+  // Map 0 -> 1 scroll progress to frame indices
   const frameIndex = useTransform(scrollYProgress, [0, 1], [0, numFrames - 1]);
 
+  // ── Load all frames; unlock canvas after first 15 ──────────────────────────
   useEffect(() => {
-    const loadedImages: HTMLImageElement[] = [];
-    let loadedCount = 0;
+    const requiredToStart = Math.min(15, numFrames);
+    let count = 0;
 
     for (let i = 0; i < numFrames; i++) {
-        const img = new Image();
-        const frameNum = i.toString().padStart(3, "0");
-        img.src = `/sequence/frame_${frameNum}_delay-0.07s.png`;
-        
-        const tick = () => {
-          loadedCount++;
-          if (onLoadProgress) onLoadProgress(loadedCount / numFrames);
-          if (loadedCount === numFrames) {
-            setImages(loadedImages);
-            setLoaded(true);
-          }
-        };
+      const img = new Image();
+      img.src = `/sequence/frame_${String(i).padStart(3, "0")}_delay-0.07s.png`;
+      imagesRef.current[i] = img; // immediately available by index
 
-        img.onload = tick;
-        img.onerror = tick;
-        
-        loadedImages.push(img);
+      const tick = () => {
+        count++;
+        if (onLoadProgress)
+          onLoadProgress(Math.min(1, count / requiredToStart));
+        if (count === requiredToStart) setLoaded(true);
+      };
+      img.onload = tick;
+      img.onerror = tick;
     }
   }, [numFrames, onLoadProgress]);
 
+  // ── Canvas rendering engine ─────────────────────────────────────────────────
   useEffect(() => {
     if (!loaded || !canvasRef.current) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set size once internally and on resize
-    const setSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    let lastW = 0;
+    let lastH = 0;
+
+    const setSize = (): boolean => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      // Ignore minor height changes (mobile URL bar show/hide)
+      if (lastW === w && Math.abs(lastH - h) < 100) return false;
+      lastW = w;
+      lastH = h;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // reset then scale
+      return true;
     };
     setSize();
 
-    let renderTask: number | null = null;
-    let currentIndex = 0;
+    let raf: number | null = null;
+    let currentIdx = 0;
 
-    const render = () => {
-      const imgToDraw = images[currentIndex];
-      if (imgToDraw && imgToDraw.complete && imgToDraw.naturalHeight !== 0) {
-        drawCanvas(ctx, canvas, imgToDraw);
+    const draw = () => {
+      const img = imagesRef.current[currentIdx];
+      if (img && img.complete && img.naturalHeight !== 0) {
+        drawCover(ctx, canvas, img);
       }
-      renderTask = null;
+      raf = null;
     };
 
-    const handleResize = () => {
-      setSize();
-      if (renderTask === null) {
-        renderTask = requestAnimationFrame(render);
-      }
+    const schedule = () => {
+      if (raf === null) raf = requestAnimationFrame(draw);
     };
-    window.addEventListener("resize", handleResize);
 
-    // Draw initial frame immediately
-    const firstValidImage = images.find(img => img.complete && img.naturalHeight !== 0);
-    if (firstValidImage) {
-      drawCanvas(ctx, canvas, firstValidImage);
-    }
+    window.addEventListener("resize", () => { if (setSize()) schedule(); });
 
-    const unsubscribe = frameIndex.on("change", (latest) => {
-      currentIndex = Math.max(0, Math.min(numFrames - 1, Math.floor(latest)));
-      if (renderTask === null) {
-        renderTask = requestAnimationFrame(render);
-      }
+    // Paint frame 0 right away
+    const first = imagesRef.current[0];
+    if (first && first.complete && first.naturalHeight !== 0)
+      drawCover(ctx, canvas, first);
+
+    const unsub = frameIndex.on("change", (v) => {
+      currentIdx = Math.max(0, Math.min(numFrames - 1, Math.floor(v)));
+      schedule();
     });
 
     return () => {
-      unsubscribe();
-      window.removeEventListener("resize", handleResize);
-      if (renderTask !== null) cancelAnimationFrame(renderTask);
+      unsub();
+      window.removeEventListener("resize", () => {});
+      if (raf !== null) cancelAnimationFrame(raf);
     };
-  }, [loaded, images, frameIndex, numFrames]);
-
-  const drawCanvas = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, img: HTMLImageElement) => {
-    const canvasRatio = canvas.width / canvas.height;
-    const imgRatio = img.width / img.height;
-
-    let drawWidth, drawHeight, offsetX, offsetY;
-
-    if (canvasRatio > imgRatio) {
-      drawWidth = canvas.width;
-      drawHeight = canvas.width / imgRatio;
-      offsetX = 0;
-      offsetY = (canvas.height - drawHeight) / 2;
-    } else {
-      drawHeight = canvas.height;
-      drawWidth = canvas.height * imgRatio;
-      offsetY = 0;
-      offsetX = (canvas.width - drawWidth) / 2;
-    }
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Draw fading black background just in case
-    ctx.fillStyle = "#121212";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-  };
+  }, [loaded, frameIndex, numFrames]);
 
   return (
     <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none z-0">
-      {!loaded && (
-        <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm italic font-light tracking-wide">
-          Loading Cinematic Experience...
-        </div>
-      )}
-      <canvas ref={canvasRef} className="block h-full w-full object-cover" />
+      <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
   );
+}
+
+// ── Cover-fit helper ─────────────────────────────────────────────────────────
+function drawCover(
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement,
+  img: HTMLImageElement
+) {
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.width / dpr;
+  const h = canvas.height / dpr;
+  const cr = w / h;
+  const ir = img.naturalWidth / img.naturalHeight;
+
+  let dw: number, dh: number, dx: number, dy: number;
+  if (cr > ir) {
+    dw = w; dh = w / ir; dx = 0; dy = (h - dh) / 2;
+  } else {
+    dh = h; dw = h * ir; dy = 0; dx = (w - dw) / 2;
+  }
+
+  ctx.clearRect(0, 0, w, h);
+  ctx.drawImage(img, dx, dy, dw, dh);
 }

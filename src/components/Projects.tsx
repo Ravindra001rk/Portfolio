@@ -127,7 +127,7 @@ export default function Projects() {
 
                   <SplitTitle
                     text={project.title}
-                    className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter text-white leading-tight mb-6"
+                    className="text-3xl md:text-4xl lg:text-5xl tracking-tighter text-zinc-300 leading-tight mb-6"
                   />
 
                   <motion.p

@@ -2,6 +2,8 @@ import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import Navbar from "@/components/Navbar";
 import Arsenal from "@/components/Arsenal";
+import TextReveal from "@/components/TextReveal";
+import WhatIDo from "@/components/WhatIDo";
 
 export default function Home() {
   return (
@@ -10,6 +12,9 @@ export default function Home() {
       <Hero />
       <Projects />
       <Arsenal />
+      <TextReveal />
+      <WhatIDo />
+    
     </main>
   );
 }

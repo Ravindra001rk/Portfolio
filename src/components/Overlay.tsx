@@ -2,25 +2,72 @@
 import React from "react";
 import { motion, MotionValue, useTransform } from "framer-motion";
 
+export interface OverlayProps {
+  scrollYProgress: MotionValue<number>;
+  isLoaded?: boolean;
+}
+
 export default function Overlay({
   scrollYProgress,
-}: {
-  scrollYProgress: MotionValue<number>;
-}) {
-  // Section 1 Opacity (0% -> 2% -> 10%)
-  const opacity1 = useTransform(scrollYProgress, [0, 0.02, 0.1], [1, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.1], [0, -300]);
+  isLoaded = true,
+}: OverlayProps) {
+  // Hero intro animations triggered by isLoaded
+  const titleContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.04,
+        delayChildren: 0.5,
+      },
+    },
+  };
+
+  const subtitleContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06,
+        delayChildren: 0.9,
+      },
+    },
+  };
+
+  const charVariants = {
+    hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
+
+  const wordVariants = {
+    hidden: { opacity: 0, y: 20, filter: "blur(5px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
+
+  // Section 1 Opacity
+  const opacity1 = useTransform(scrollYProgress, [0, 0.04, 0.14], [1, 1, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.14], [0, -300]);
   const display1 = useTransform(scrollYProgress, (p) =>
-    p > 0.1 ? "none" : "flex",
+    p > 0.14 ? "none" : "flex",
   );
 
-  // Section 2 Opacity — appears earlier (10% -> 20% -> 40%)
-  const opacity2 = useTransform(scrollYProgress, [0.1, 0.2, 0.4], [0, 1, 0]);
-  const y2 = useTransform(scrollYProgress, [0.1, 0.4], [80, -80]);
+  // Section 2 Opacity — earlier appearance
+  const opacity2 = useTransform(scrollYProgress, [0.12, 0.22, 0.42], [0, 1, 0]);
+  const y2 = useTransform(scrollYProgress, [0.12, 0.42], [80, -80]);
 
-  // Section 3 Opacity — shifted to match section 2's earlier timing (40% -> 55% -> 75%)
-  const opacity3 = useTransform(scrollYProgress, [0.4, 0.55, 0.75], [0, 1, 0]);
-  const y3 = useTransform(scrollYProgress, [0.4, 0.75], [80, -80]);
+  // Section 3 Opacity — appears early, holds until end
+  const opacity3 = useTransform(scrollYProgress, [0.42, 0.54, 0.96, 1.0], [0, 1, 1, 0]);
+  const y3 = useTransform(scrollYProgress, [0.42, 0.54], [80, 0]);
 
   return (
     <div className="absolute inset-0 h-full w-full pointer-events-none z-10">
@@ -30,12 +77,31 @@ export default function Overlay({
           style={{ opacity: opacity1, y: y1, display: display1 }}
           className="absolute inset-0 flex flex-col items-center justify-center pt-[30vh] text-center px-8"
         >
-          <h1 className="text-[80px] sm:text-[100px] md:text-9xl lg:text-[172px] font-black text-white/70 tracking-tighter leading-none">
-            Ravindra. <br />
-          </h1>
-          <h1 className="text-4xl sm:text-5xl md:text-3xl lg:text-5xl mt-4 font-black text-white/65 tracking-tighter">
-            Full Stack Developer.
-          </h1>
+          <motion.h1 
+            className="text-[80px] sm:text-[100px] md:text-9xl lg:text-[172px] font-black text-white/70 tracking-tighter leading-none"
+            variants={titleContainerVariants}
+            initial="hidden"
+            animate={isLoaded ? "visible" : "hidden"}
+            style={{ perspective: 1000 }}
+          >
+            {"Ravindra.".split("").map((char, i) => (
+              <motion.span key={i} variants={charVariants} className="inline-block">
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </motion.h1>
+          <motion.h1 
+            className="text-4xl sm:text-5xl md:text-3xl lg:text-5xl mt-4 font-black text-white/65 tracking-tighter flex justify-center space-x-2"
+            variants={subtitleContainerVariants}
+            initial="hidden"
+            animate={isLoaded ? "visible" : "hidden"}
+          >
+            {"Full Stack Developer.".split(" ").map((word, i) => (
+              <motion.span key={i} variants={wordVariants} className="inline-block">
+                {word}
+              </motion.span>
+            ))}
+          </motion.h1>
 
           {/* Scroll Indicator */}
           <div className="absolute bottom-20 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
