@@ -18,6 +18,7 @@ function SplitTitle({
   className?: string;
 }) {
   const ref = useRef<HTMLHeadingElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const inView = useInView(ref, { once: true, margin: "-10%" });
 
   const words = text.split(" ");
@@ -191,6 +192,7 @@ export default function Projects() {
                   href={`/projects/${project.slug}`}
                   className="block w-full h-full"
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={project.heroImage}
                     alt={project.title}

@@ -49,10 +49,8 @@ export default function Arsenal() {
 
     // Only scroll if not hovered and not manually dragged
     if (!isHovered && !isDragging) {
-      const moveBy = 0.5 * (delta / 10); // Smooth velocity relative to frame timing
+      const moveBy = 0.5 * (delta / 10);
       const currentX = x.get() - moveBy;
-      
-      // wrap seamlessly loops between [-contentWidth, 0]
       x.set(wrap(-contentWidth, 0, currentX));
     }
   });

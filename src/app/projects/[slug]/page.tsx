@@ -49,6 +49,7 @@ export default function ProjectCaseStudy({
           className="absolute inset-0 w-full h-full"
         >
           <div className="absolute inset-0 bg-[#121212]/70 backdrop-blur-md z-10" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={project.heroImage}
             alt={project.title}
