@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import {
   motion,
   useScroll,
-  useTransform,
   AnimatePresence,
 } from "framer-motion";
 import { FileText, Menu, X } from "lucide-react";
@@ -21,7 +20,6 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 );
 
 export default function Navbar() {
-  const { scrollY } = useScroll();
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
