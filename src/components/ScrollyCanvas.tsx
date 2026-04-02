@@ -49,24 +49,6 @@ export default function ScrollyCanvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let lastW = 0;
-    let lastH = 0;
-
-    const setSize = (): boolean => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      // Ignore minor height changes (mobile URL bar show/hide)
-      if (lastW === w && Math.abs(lastH - h) < 100) return false;
-      lastW = w;
-      lastH = h;
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // reset then scale
-      return true;
-    };
-    setSize();
-
     let raf: number | null = null;
     let currentIdx = 0;
 
@@ -82,7 +64,23 @@ export default function ScrollyCanvas({
       if (raf === null) raf = requestAnimationFrame(draw);
     };
 
-    window.addEventListener("resize", () => { if (setSize()) schedule(); });
+    // Use ResizeObserver on the canvas element itself so the bitmap is always
+    // in sync with the element's rendered size — including when the mobile
+    // URL bar shows/hides and changes h-screen height (which caused the stretch).
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { inlineSize: w, blockSize: h } = entry.contentBoxSize?.[0] ?? {
+          inlineSize: entry.contentRect.width,
+          blockSize: entry.contentRect.height,
+        };
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        schedule();
+      }
+    });
+    ro.observe(canvas);
 
     // Paint frame 0 right away
     const first = imagesRef.current[0];
@@ -96,7 +94,7 @@ export default function ScrollyCanvas({
 
     return () => {
       unsub();
-      window.removeEventListener("resize", () => {});
+      ro.disconnect();
       if (raf !== null) cancelAnimationFrame(raf);
     };
   }, [loaded, frameIndex, numFrames]);

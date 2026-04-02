@@ -56,13 +56,13 @@ export default function Arsenal() {
   });
 
   return (
-    <section className="w-full bg-[#121212] py-24 md:py-32 flex flex-col items-center border-t border-white/5 z-20 relative overflow-hidden">
+    <section id="arsenal" className="w-full bg-[#121212] py-24 md:py-32 flex flex-col items-center border-t border-white/5 z-20 relative overflow-hidden">
       <div className="w-full px-6 md:px-16 lg:px-24 flex flex-col items-center md:items-start text-center md:text-left">
        <div className="max-w-7xl mx-auto w-full md:mx-0">
-         <p className="text-zinc-500 font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2">
+         <p className="font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2" style={{ color: 'var(--color-label)' }}>
           Technologies & Tools
         </p>
-        <h2 className="text-4xl md:text-6xl font-black text-zinc-300 mb-16 tracking-tighter">
+         <h2 className="text-4xl md:text-6xl font-black mb-16 tracking-tighter" style={{ color: 'var(--color-text-primary)' }}>
           My Arsenal
         </h2>
        </div>
@@ -101,7 +101,7 @@ export default function Arsenal() {
                 <div className="w-6 h-6 flex items-center justify-center transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
                   <tool.Icon className={`w-full h-full ${tool.color} drop-shadow-md pointer-events-none`} />
                 </div>
-                <span className="text-sm md:text-lg font-bold tracking-tight text-white/70 group-hover:text-white transition-colors pointer-events-none select-none">
+                 <span className="text-sm md:text-lg font-bold tracking-tight group-hover:text-white transition-colors pointer-events-none select-none" style={{ color: 'var(--color-text-muted)' }}>
                   {tool.name}
                 </span>
               </div>

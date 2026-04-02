@@ -22,11 +22,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    "Services",
-    "Work",
     "About",
     "Experience",
-    "Testimonials",
+    "Arsenal",
+    "Work",
     "Contact",
   ];
 
@@ -34,12 +33,12 @@ export default function Navbar() {
     <>
       <motion.nav className="fixed top-0 left-0 z-50 w-full z-50 px-6 py-4 md:px-8 md:py-6 flex justify-between items-center transition-all duration-300 bg-transparent backdrop-blur-[8px]">
         {/* Left: Logo */}
-        <div className="text-white font-black text-xl tracking-tighter cursor-pointer relative z-[60]">
+        <div className="font-black text-xl tracking-tighter cursor-pointer relative z-[60]" style={{ color: 'var(--color-text-primary)' }}>
           RAVINDRA.
         </div>
 
         {/* Center: Desktop Links */}
-        <div className="hidden lg:flex gap-8 text-sm font-medium text-white/60 absolute left-1/2 -translate-x-1/2">
+        <div className="hidden lg:flex gap-8 text-sm font-medium absolute left-1/2 -translate-x-1/2" style={{ color: 'var(--color-text-muted)' }}>
           {navLinks.map((link) => (
             <a
               key={link}
@@ -53,14 +52,15 @@ export default function Navbar() {
 
         {/* Right: Actions */}
         <div className="hidden lg:flex items-center gap-6">
-          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all backdrop-blur-md border border-white/10">
+          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full text-sm font-semibold transition-all backdrop-blur-md border border-white/10" style={{ color: 'var(--color-text-primary)' }}>
             <FileText className="w-4 h-4" /> Resume
           </button>
           <a
             href="https://github.com"
             target="_blank"
             rel="noopener"
-            className="text-white/60 hover:text-white transition-colors"
+            className="transition-colors"
+            style={{ color: 'var(--color-text-muted)' }}
           >
             <GithubIcon className="w-5 h-5" />
           </a>
@@ -68,7 +68,8 @@ export default function Navbar() {
             href="https://linkedin.com"
             target="_blank"
             rel="noopener"
-            className="text-white/60 hover:text-white transition-colors"
+            className="transition-colors"
+            style={{ color: 'var(--color-text-muted)' }}
           >
             <LinkedinIcon className="w-5 h-5" />
           </a>
@@ -98,13 +99,14 @@ export default function Navbar() {
                 key={link}
                 href={`#${link.toLowerCase()}`}
                 onClick={() => setIsOpen(false)}
-                className="text-white text-3xl font-black tracking-tighter hover:text-zinc-400 transition-colors"
+                className="text-3xl font-black tracking-tighter transition-colors"
+                style={{ color: 'var(--color-text-primary)' }}
               >
                 {link}
               </a>
             ))}
             <div className="flex gap-6 mt-8">
-              <button className="flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full text-sm font-semibold">
+              <button className="flex items-center gap-2 bg-white text-[#121212] px-6 py-3 rounded-full text-sm font-semibold">
                 <FileText className="w-4 h-4" /> Resume
               </button>
               <div className="flex items-center gap-4 px-4">
@@ -112,7 +114,8 @@ export default function Navbar() {
                   href="https://github.com"
                   target="_blank"
                   rel="noopener"
-                  className="text-white hover:text-zinc-400"
+                  className="transition-colors"
+                  style={{ color: 'var(--color-text-primary)' }}
                 >
                   <GithubIcon className="w-6 h-6" />
                 </a>
@@ -120,7 +123,8 @@ export default function Navbar() {
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noopener"
-                  className="text-white hover:text-zinc-400"
+                  className="transition-colors"
+                  style={{ color: 'var(--color-text-primary)' }}
                 >
                   <LinkedinIcon className="w-6 h-6" />
                 </a>

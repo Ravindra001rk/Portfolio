@@ -78,11 +78,11 @@ export default function Overlay({
           className="absolute inset-0 flex flex-col items-center justify-center pt-[30vh] text-center px-8"
         >
           <motion.h1 
-            className="text-[80px] sm:text-[100px] md:text-9xl lg:text-[172px] font-black text-white/70 tracking-tighter leading-none"
+            className="text-[80px] sm:text-[100px] md:text-9xl lg:text-[172px] font-black tracking-tighter leading-none"
+            style={{ color: 'var(--color-text-primary)', perspective: 1000 }}
             variants={titleContainerVariants}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
-            style={{ perspective: 1000 }}
           >
             {"Ravindra.".split("").map((char, i) => (
               <motion.span key={i} variants={charVariants} className="inline-block">
@@ -91,7 +91,8 @@ export default function Overlay({
             ))}
           </motion.h1>
           <motion.h1 
-            className="text-4xl sm:text-5xl md:text-3xl lg:text-5xl mt-4 font-black text-white/65 tracking-tighter flex justify-center space-x-2"
+            className="text-4xl sm:text-5xl md:text-3xl lg:text-5xl mt-4 font-black tracking-tighter flex justify-center space-x-2"
+            style={{ color: 'var(--color-text-muted)' }}
             variants={subtitleContainerVariants}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
@@ -105,7 +106,7 @@ export default function Overlay({
 
           {/* Scroll Indicator */}
           <div className="absolute bottom-20 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
-            <span className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] text-white/40 mb-3 font-semibold">
+            <span className="text-[9px] md:text-[11px] uppercase tracking-[0.3em] mb-3 font-semibold" style={{ color: 'var(--color-label)' }}>
               Scroll
             </span>
             <div className="w-[24px] h-[38px] md:w-[28px] md:h-[44px] border-[2px] border-white/30 rounded-full flex justify-center p-1.5">
@@ -130,8 +131,8 @@ export default function Overlay({
           <div className="max-w-2xl">
             <h2
               className="font-bold tracking-tight leading-tight 
-      text-[clamp(2.5rem,5vw,3.5rem)]
-      bg-gradient-to-r from-zinc-100 to-zinc-500 bg-clip-text text-transparent"
+      text-[clamp(2.5rem,5vw,3.5rem)]"
+              style={{ color: 'var(--color-text-primary)' }}
             >
               I build fast, reliable systems <br />
               that solve real business problems.
@@ -147,14 +148,14 @@ export default function Overlay({
           <div className="max-w-2xl">
             <h2
               className="font-bold tracking-tight leading-tight 
-  text-[clamp(2.5rem,5vw,3.5rem)]
-  bg-gradient-to-l from-zinc-100 to-zinc-500 bg-clip-text text-transparent"
+  text-[clamp(2.5rem,5vw,3.5rem)]"
+              style={{ color: 'var(--color-text-primary)' }}
             >
               From idea to deployment — <br />
-              <span className="text-white">
+              
                 I turn concepts into real, working systems that solve actual
                 problems.
-              </span>
+              
             </h2>
           </div>
         </motion.div>

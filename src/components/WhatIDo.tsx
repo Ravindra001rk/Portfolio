@@ -68,7 +68,7 @@ function Char({
   start: number;
   end: number;
 }) {
-  const color = useTransform(progress, [start, end], ["#2e2e2e", "#B7AB98"]);
+  const color = useTransform(progress, [start, end], ["var(--color-text-unlit)", "var(--color-text-muted)"]);
   return <motion.span style={{ color, willChange: "color" }}>{char}</motion.span>;
 }
 
@@ -84,11 +84,12 @@ export default function WhatIDo() {
   return (
     <section
       ref={containerRef}
+      id="experience"
       className="relative w-full bg-[#121212] border-t border-white/5 overflow-hidden"
     >
       {/* Header */}
       <div className="max-w-8xl mx-auto px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-4">
-        <p className="text-zinc-500 font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm">
+        <p className="font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm" style={{ color: 'var(--color-label)' }}>
           What I Do
         </p>
       </div>
@@ -138,7 +139,7 @@ function RowContent({
       <div className="flex items-baseline gap-6 flex-1 min-w-0">
         <span
           className="hidden md:block text-[11px] font-semibold tracking-[0.25em] uppercase shrink-0"
-          style={{ color: dark ? "#1a1a1a" : "#4b4b4b" }}
+          style={{ color: dark ? "var(--color-bg)" : "var(--color-text-dim)" }}
         >
           {String(index + 1).padStart(2, "0")}
         </span>
@@ -147,8 +148,8 @@ function RowContent({
           className="font-black uppercase tracking-tighter leading-none select-none"
           style={{
             fontFamily: "var(--font-josefin)",
-            fontSize: "clamp(2.8rem, 8vw, 7rem)",
-            color: dark ? "#121212" : "#B7AB98",
+            fontSize: "clamp(2.8rem, 7vw, 6rem)",
+            color: dark ? "var(--color-bg)" : "var(--color-text-muted)",
           }}
         >
           {dark || !progress ? (
@@ -185,7 +186,8 @@ function RowContent({
       {dark && isActive && (
         <motion.p
           key="desc"
-          className="hidden md:block text-[#1a1a1a] text-sm md:text-base font-medium max-w-xs lg:max-w-sm leading-snug text-right shrink-0"
+          className="hidden md:block text-sm md:text-base font-medium max-w-xs lg:max-w-sm leading-snug text-right shrink-0"
+          style={{ color: 'var(--color-bg)' }}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 10 }}
@@ -206,7 +208,7 @@ function RowContent({
             fill="none"
             strokeWidth={1.5}
             className="w-5 h-5 md:w-6 md:h-6"
-            stroke={dark ? "#1a1a1a" : "#4b4b4b"}
+            stroke={dark ? "var(--color-bg)" : "var(--color-text-dim)"}
           >
             <path
               strokeLinecap="round"

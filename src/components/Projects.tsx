@@ -13,9 +13,11 @@ import { projects } from "../data/projects";
 function SplitTitle({
   text,
   className = "",
+  style,
 }: {
   text: string;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const ref = useRef<HTMLHeadingElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -24,7 +26,7 @@ function SplitTitle({
   const words = text.split(" ");
 
   return (
-    <h2 ref={ref} className={`overflow-hidden ${className}`}>
+    <h2 ref={ref} className={`overflow-hidden ${className}`} style={style}>
       {words.map((word, wi) => (
         <span key={wi} className="inline-block overflow-hidden mr-[0.25em]">
           <motion.span
@@ -89,13 +91,14 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-xs tracking-[0.3em] uppercase text-zinc-500 mb-4"
+          className="text-xs tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-label)' }}
         >
           Selected Work
         </motion.p>
         <SplitTitle
           text="What I've Built"
-          className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-orange-500"
+          className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
+          style={{ color: 'var(--color-accent)' }}
         />
       </div>
 
@@ -128,7 +131,8 @@ export default function Projects() {
 
                   <SplitTitle
                     text={project.title}
-                    className="text-3xl md:text-4xl lg:text-5xl tracking-tighter text-zinc-300 leading-tight mb-6"
+                    className="text-3xl md:text-4xl lg:text-5xl tracking-tighter leading-tight mb-6"
+                    style={{ color: 'var(--color-text-primary)' }}
                   />
 
                   <motion.p
@@ -136,7 +140,7 @@ export default function Projects() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4, duration: 0.6 }}
-                    className="text-zinc-400 leading-relaxed text-base md:text-lg mb-8 max-w-lg"
+                    className="leading-relaxed text-base md:text-lg mb-8 max-w-lg" style={{ color: 'var(--color-text-muted)' }}
                   >
                     {project.shortDesc}
                   </motion.p>
@@ -156,7 +160,7 @@ export default function Projects() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.5 + i * 0.05 }}
-                        className="px-3 py-1 rounded-full text-xs font-medium border border-white/10 text-zinc-300 bg-white/5"
+                        className="px-3 py-1 rounded-full text-xs font-medium border border-white/10 bg-white/5" style={{ color: 'var(--color-text-muted)' }}
                       >
                         {t}
                       </motion.span>
@@ -177,7 +181,7 @@ export default function Projects() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-2 border border-white/10 text-white/70 hover:text-white hover:border-white/30 px-6 py-3.5 rounded-full font-medium text-sm transition-all"
+                        className="flex items-center gap-2 border border-white/10 hover:border-white/30 px-6 py-3.5 rounded-full font-medium text-sm transition-all" style={{ color: 'var(--color-text-muted)' }}
                       >
                         Live Site <ExternalLink className="w-4 h-4" />
                       </a>

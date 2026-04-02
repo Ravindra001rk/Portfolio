@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Arsenal from "@/components/Arsenal";
 import TextReveal from "@/components/TextReveal";
 import WhatIDo from "@/components/WhatIDo";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <Arsenal />
       <TextReveal />
       <WhatIDo />
-    
+      <Contact />
     </main>
   );
 }

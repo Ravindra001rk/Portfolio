@@ -5,16 +5,14 @@ import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
 // Segments: accent:true → orange highlight
 const SEGMENTS = [
-  { text: "I'm a ", accent: false },
-  { text: "selectively skilled", accent: true },
-  { text: " Full Stack Developer", accent: false },
-  { text: " crafting", accent: false },
-  { text: " clean & modern", accent: true },
-  { text: " designs and building", accent: false },
-  { text: " robust backend systems", accent: true },
-  { text: " for", accent: false },
-  { text: " fast & impactful", accent: true },
-  { text: " digital experiences.", accent: false },
+  { text: "I build ", accent: false },
+  { text: "modern websites", accent: true },
+  { text: " and", accent: false },
+  { text: " powerful systems", accent: true },
+  { text: " that help businesses", accent: false },
+  { text: " work faster", accent: true },
+  { text: ", manage things easily,", accent: false },
+  { text: " and deliver better results.", accent: true },
 ];
 type CharToken = { char: string; accent: boolean; globalIndex: number };
 type WordToken = { chars: CharToken[]; isSpace: boolean };
@@ -64,8 +62,8 @@ function Char({
   start: number;
   end: number;
 }) {
-  const dimColor = accent ? "#5a2510" : "#2e2e2e";
-  const litColor = accent ? "#FF6B35" : "#B7AB98";
+  const dimColor = accent ? "#3a1508" : "var(--color-text-unlit)";
+  const litColor = accent ? "var(--color-accent)" : "var(--color-text-muted)";
   const color = useTransform(progress, [start, end], [dimColor, litColor]);
 
   return (
@@ -92,11 +90,12 @@ export default function TextReveal() {
   return (
     <section
       ref={containerRef}
+      id="about"
       className="relative w-full bg-[#121212] py-18 md:py-24 border-t border-white/5"
     >
       <div className="max-w-8xl mx-auto px-6 md:px-16 lg:px-24">
         {/* Label */}
-        <p className="text-zinc-500 font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm mb-10 md:mb-14">
+        <p className="font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm mb-10 md:mb-14" style={{ color: 'var(--color-label)' }}>
           About Me
         </p>
 
@@ -106,7 +105,7 @@ export default function TextReveal() {
           style={{
             fontFamily: "var(--font-josefin)",
             fontWeight: 700,
-            fontSize: "clamp(2.2rem, 5vw, 5.5rem)",
+            fontSize: "clamp(2.2rem, 4vw, 4.5rem)",
             wordBreak: "normal",
             overflowWrap: "normal",
           }}
