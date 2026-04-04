@@ -6,12 +6,14 @@ interface ScrollyCanvasProps {
   scrollYProgress: MotionValue<number>;
   numFrames?: number;
   onLoadProgress?: (pct: number) => void;
+  onReady?: () => void;
 }
 
 export default function ScrollyCanvas({
   scrollYProgress,
   numFrames = 120,
   onLoadProgress,
+  onReady,
 }: ScrollyCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Ref holds all image elements immediately — renderer always sees latest loaded frames
@@ -21,25 +23,52 @@ export default function ScrollyCanvas({
   // Map 0 -> 1 scroll progress to frame indices
   const frameIndex = useTransform(scrollYProgress, [0, 1], [0, numFrames - 1]);
 
-  // ── Load all frames; unlock canvas after first 15 ──────────────────────────
+  // -- Intelligent Batch Loading Strategy --------------------------------------------
   useEffect(() => {
-    const requiredToStart = Math.min(15, numFrames);
-    let count = 0;
+    const startThreshold = Math.min(30, numFrames);
+    let loadedCount = 0;
+    const allImages: HTMLImageElement[] = [];
 
-    for (let i = 0; i < numFrames; i++) {
+    // Initialize the ref array
+    imagesRef.current = allImages;
+
+    // Helper to load a single frame
+    const loadFrame = (i: number) => {
       const img = new Image();
-      img.src = `/sequence/frame_${String(i).padStart(3, "0")}_delay-0.07s.png`;
-      imagesRef.current[i] = img; // immediately available by index
+      img.src = `/sequence/frame_${String(i).padStart(3, "0")}_delay-0.07s.webp`;
+      allImages[i] = img;
 
-      const tick = () => {
-        count++;
-        if (onLoadProgress)
-          onLoadProgress(Math.min(1, count / requiredToStart));
-        if (count === requiredToStart) setLoaded(true);
+      const onFinish = () => {
+        loadedCount++;
+        if (onLoadProgress) {
+          // Progress is 0.5 when threshold met, then 0.5 to 1.0 for the rest
+          // This gives the user a better sense of "ready to start" vs "fully loaded"
+          onLoadProgress(loadedCount / numFrames);
+        }
+        if (loadedCount >= startThreshold) {
+          setLoaded(true);
+          if (onReady) onReady();
+        }
       };
-      img.onload = tick;
-      img.onerror = tick;
+
+      img.onload = onFinish;
+      img.onerror = onFinish;
+    };
+
+    // Phase 1: Load the priority frames immediately
+    for (let i = 0; i < startThreshold; i++) {
+      loadFrame(i);
     }
+
+    // Phase 2: Load the rest after a short delay (or after priority is done) 
+    // to give the browser room to breathe for other assets (styles, fonts, etc.)
+    const timer = setTimeout(() => {
+      for (let i = startThreshold; i < numFrames; i++) {
+        loadFrame(i);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [numFrames, onLoadProgress]);
 
   // ── Canvas rendering engine ─────────────────────────────────────────────────

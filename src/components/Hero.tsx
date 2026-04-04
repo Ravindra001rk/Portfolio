@@ -7,6 +7,7 @@ import Overlay from "./Overlay";
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const [loadProgress, setLoadProgress] = useState(0);
+  const [isReady, setIsReady] = useState(false);
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
@@ -15,7 +16,7 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  const isLoaded = loadProgress === 1 && minTimeElapsed;
+  const isLoaded = (isReady || loadProgress === 1) && minTimeElapsed;
 
   // Track scroll progress of this 500vh container
   const { scrollYProgress } = useScroll({
@@ -83,6 +84,7 @@ export default function Hero() {
           scrollYProgress={scrollYProgress}
           numFrames={120}
           onLoadProgress={setLoadProgress}
+          onReady={() => setIsReady(true)}
         />
         <Overlay scrollYProgress={scrollYProgress} isLoaded={isLoaded} />
       </section>
