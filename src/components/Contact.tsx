@@ -74,7 +74,7 @@ function SplitText({ text, accent }: { text: string; accent?: boolean }) {
           key={i}
           variants={titleChar}
           className="inline-block origin-bottom"
-          style={accent ? { color: "#ff6b35" } : {}}
+          style={accent ? { color: "var(--color-accent)" } : {}}
         >
           {char === " " ? "\u00A0" : char}
         </motion.span>
@@ -267,7 +267,7 @@ export default function Contact() {
                   >
                     <Icon
                       className="w-4 h-4"
-                      style={{ color: "#ff6b35" }}
+                      style={{ color: "var(--color-accent)" }}
                     />
                   </div>
                   <div>
@@ -467,7 +467,7 @@ export default function Contact() {
                     type="submit"
                     disabled={status === "sending"}
                     className="group relative mt-6 flex items-center justify-center gap-3 rounded-full px-10 py-5 font-bold text-sm text-white overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed w-fit"
-                    style={{ background: "#ff6b35" }}
+                    style={{ background: "var(--color-accent)" }}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
