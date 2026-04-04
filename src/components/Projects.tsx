@@ -20,7 +20,7 @@ function SplitTitle({
   style?: React.CSSProperties;
 }) {
   const ref = useRef<HTMLHeadingElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // useInView is used to trigger animations
   const inView = useInView(ref, { once: true, margin: "-10%" });
 
   const words = text.split(" ");
@@ -98,7 +98,7 @@ export default function Projects() {
         <SplitTitle
           text="What I've Built"
           className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
-          style={{ color: 'var(--color-accent)' }}
+          style={{ color: '#ff6b35' }}
         />
       </div>
 

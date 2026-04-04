@@ -69,7 +69,7 @@ export default function ScrollyCanvas({
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [numFrames, onLoadProgress]);
+  }, [numFrames, onLoadProgress, onReady]);
 
   // ── Canvas rendering engine ─────────────────────────────────────────────────
   useEffect(() => {
