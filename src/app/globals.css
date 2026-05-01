@@ -20,8 +20,8 @@
     font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
   }
   ::selection {
-    background-color: var(--color-accent);
-    color: #000;
+    background-color: rgba(255, 107, 53, 0.9);
+    /* color: white; */
   }
 }
 

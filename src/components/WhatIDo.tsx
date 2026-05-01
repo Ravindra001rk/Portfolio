@@ -68,7 +68,7 @@ function Char({
   start: number;
   end: number;
 }) {
-  const color = useTransform(progress, [start, end], ["var(--color-text-unlit)", "var(--color-text-muted)"]);
+  const color = useTransform(progress, [start, end], ["#2a2a2a", "#9B9B8E"]); // #2a2a2a is --color-text-unlit, #9B9B8E is --color-text-muted
   return <motion.span style={{ color, willChange: "color" }}>{char}</motion.span>;
 }
 

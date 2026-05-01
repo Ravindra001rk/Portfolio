@@ -62,8 +62,8 @@ function Char({
   start: number;
   end: number;
 }) {
-  const dimColor = accent ? "#3a1508" : "var(--color-text-unlit)";
-  const litColor = accent ? "var(--color-accent)" : "var(--color-text-muted)";
+  const dimColor = accent ? "#3a1508" : "#2a2a2a"; // #2a2a2a is --color-text-unlit
+  const litColor = accent ? "#ff6b35" : "#9B9B8E"; // #ff6b35 is --color-accent, #9B9B8E is --color-text-muted
   const color = useTransform(progress, [start, end], [dimColor, litColor]);
 
   return (

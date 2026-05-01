@@ -48,7 +48,7 @@ export default function WorksPage() {
         <SplitTitle
           text="All Works"
           className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
-          style={{ color: "var(--color-accent)" }}
+          style={{ color: "#ff6b35" }}
         />
         <motion.p
           initial={{ opacity: 0, y: 20 }}

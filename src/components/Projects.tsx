@@ -98,7 +98,7 @@ export default function Projects() {
         <SplitTitle
           text="What I've Built"
           className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
-          style={{ color: 'var(--color-accent)' }}
+          style={{ color: '#ff6b35' }}
         />
       </div>
 
@@ -210,6 +210,35 @@ export default function Projects() {
           </motion.div>
         ))}
       </div>
+
+      {/* ── See All Works CTA ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="flex justify-center pb-32 px-6"
+      >
+        <Link
+          href="/works"
+          className="group relative overflow-hidden inline-flex items-center gap-4 rounded-full border-2 px-10 py-4 font-bold text-base tracking-wide transition-all duration-300"
+          style={{
+            borderColor: "#ff6b35",
+            color: "#ff6b35",
+          }}
+        >
+          <div
+            className="absolute inset-0 bg-[#ff6b35] scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-[0.76,0,0.24,1] z-0"
+            aria-hidden
+          />
+          <span className="relative z-10 group-hover:text-black transition-colors duration-300 uppercase tracking-widest">
+            See All Works
+          </span>
+          <span className="relative z-10 text-xl font-black group-hover:text-black transition-all duration-300 group-hover:translate-x-2">
+            →
+          </span>
+        </Link>
+      </motion.div>
     </section>
   );
 }

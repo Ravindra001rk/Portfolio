@@ -11,13 +11,11 @@ const fadeIn = (delay = 0) => ({
 });
 
 const rotatingHeroWords = [
-  "FRONTEND",
-  "BACKEND",
-  "MERN APPS",
-  "WEB SYSTEMS",
-  "APIS",
+  "SCALABLE WEB APPS",
+  "CUSTOM ADMIN PANELS",
+  "MERN STACK SYSTEMS",
+  "REAL-WORLD PROJECTS",
 ];
-
 export default function Hero() {
   const [activeWordIndex, setActiveWordIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -52,7 +50,7 @@ export default function Hero() {
 
     const interval = setInterval(() => {
       setActiveWordIndex((index) => (index + 1) % rotatingHeroWords.length);
-    }, 2200);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [isLoaded]);
@@ -124,8 +122,8 @@ export default function Hero() {
                   <motion.span
                     key={index}
                     className="inline-block"
-                    initial={{ y: "100%", filter: "blur(4px)", opacity: 0 }}
-                    animate={{ y: 0, filter: "blur(0px)", opacity: 1 }}
+                    initial={{ y: "100%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
                     transition={{
                       duration: 0.8,
                       ease: [0.76, 0, 0.24, 1],
@@ -255,19 +253,49 @@ export default function Hero() {
                     aria-live="polite"
                   >
                     <AnimatePresence mode="wait" initial={false}>
-                      <motion.span
+                      <motion.div
                         key={rotatingHeroWords[activeWordIndex]}
-                        className="col-start-1 row-start-1 inline-block"
-                        initial={{ y: "105%", opacity: 0, filter: "blur(8px)" }}
-                        animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                        exit={{ y: "-105%", opacity: 0, filter: "blur(8px)" }}
-                        transition={{
-                          duration: 0.55,
-                          ease: [0.76, 0, 0.24, 1],
-                        }}
+                        className="col-start-1 row-start-1 flex flex-wrap"
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
                       >
-                        {rotatingHeroWords[activeWordIndex]}
-                      </motion.span>
+                        {rotatingHeroWords[activeWordIndex]
+                          .split(" ")
+                          .map((word, wordIndex, wordsArr) => {
+                            const previousWords = wordsArr.slice(0, wordIndex);
+                            const globalStartIndex =
+                              previousWords.join(" ").length +
+                              (wordIndex > 0 ? 1 : 0);
+
+                            return (
+                              <span
+                                key={wordIndex}
+                                className="inline-block whitespace-nowrap mr-[0.3em] last:mr-0"
+                              >
+                                {word.split("").map((char, charIndex) => (
+                                  <motion.span
+                                    key={charIndex}
+                                    variants={{
+                                      initial: { y: "105%", opacity: 0 },
+                                      animate: { y: 0, opacity: 1 },
+                                      exit: { y: "-105%", opacity: 0 },
+                                    }}
+                                    transition={{
+                                      duration: 0.25,
+                                      ease: [0.33, 1, 0.68, 1],
+                                      delay:
+                                        (globalStartIndex + charIndex) * 0.02,
+                                    }}
+                                    className="inline-block"
+                                  >
+                                    {char}
+                                  </motion.span>
+                                ))}
+                              </span>
+                            );
+                          })}
+                      </motion.div>
                     </AnimatePresence>
                   </span>
                 </motion.span>

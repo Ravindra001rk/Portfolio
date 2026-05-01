@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScrollProvider from "@/components/LenisProvider";
+import PageScrollRestoration from "@/components/PageScrollRestoration";
 
 export default function RootLayout({
   children,
@@ -33,6 +34,7 @@ export default function RootLayout({
         className={`${outfit.className} ${outfit.variable} ${josefin.variable} antialiased`}
       >
         <SmoothScrollProvider>
+          <PageScrollRestoration />
           {children}
           <ScrollToTop />
         </SmoothScrollProvider>
