@@ -19,6 +19,10 @@
     color: var(--color-text-primary);
     font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
   }
+  ::selection {
+    background-color: var(--color-accent);
+    color: #000;
+  }
 }
 
 /* Hide scrollbar for a seamless experience */

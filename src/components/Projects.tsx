@@ -171,6 +171,7 @@ export default function Projects() {
                   <div className="flex flex-wrap gap-4">
                     <Link
                       href={`/projects/${project.slug}`}
+                      prefetch={true}
                       className="group flex items-center gap-3 bg-white text-black px-6 py-3.5 rounded-full font-bold text-sm hover:bg-zinc-100 transition-colors"
                     >
                       <span>Explore Case Study</span>

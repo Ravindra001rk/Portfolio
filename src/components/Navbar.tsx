@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-} from "framer-motion";
-import { FileText, Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import Link from "next/link";
 
 const GithubIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -12,9 +10,9 @@ const GithubIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const LinkedinIcon = ({ className }: { className?: string }) => (
+const InstagramIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
   </svg>
 );
 
@@ -23,13 +21,7 @@ export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
 
-  const navLinks = [
-    "About",
-    "Experience",
-    "Arsenal",
-    "Work",
-    "Contact",
-  ];
+  const navLinks = ["About", "Experience", "Arsenal", "Work", "Contact"];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,45 +53,50 @@ export default function Navbar() {
         transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
       >
         {/* Left: Logo */}
-        <div className="font-black text-xl tracking-tighter cursor-pointer relative z-[60]" style={{ color: 'var(--color-text-primary)' }}>
-          RAVINDRA.
-        </div>
+        <Link href="/">
+          <div
+            className="font-black text-xl tracking-tighter cursor-pointer relative z-[60]"
+            style={{ color: "var(--color-text-primary)" }}
+          >
+            RAVINDRA.
+          </div>
+        </Link>
 
         {/* Center: Desktop Links */}
-        <div className="hidden lg:flex gap-8 text-sm font-medium absolute left-1/2 -translate-x-1/2" style={{ color: 'var(--color-text-muted)' }}>
+        <div
+          className="hidden lg:flex gap-8 text-sm font-medium absolute left-1/2 -translate-x-1/2"
+          style={{ color: "var(--color-text-muted)" }}
+        >
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link}
-              href={`#${link.toLowerCase()}`}
+              href={link === "Work" ? "/works" : `/#${link.toLowerCase()}`}
               className="hover:text-white transition-colors"
             >
               {link}
-            </a>
+            </Link>
           ))}
         </div>
 
         {/* Right: Actions */}
         <div className="hidden lg:flex items-center gap-6">
-          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full text-sm font-semibold transition-all backdrop-blur-md border border-white/10" style={{ color: 'var(--color-text-primary)' }}>
-            <FileText className="w-4 h-4" /> Resume
-          </button>
           <a
-            href="https://github.com"
+            href="https://github.com/Ravindra001rk"
             target="_blank"
             rel="noopener"
             className="transition-colors"
-            style={{ color: 'var(--color-text-muted)' }}
+            style={{ color: "var(--color-text-muted)" }}
           >
             <GithubIcon className="w-5 h-5" />
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.instagram.com/_ravindrakushwaha/"
             target="_blank"
             rel="noopener"
             className="transition-colors"
-            style={{ color: 'var(--color-text-muted)' }}
+            style={{ color: "var(--color-text-muted)" }}
           >
-            <LinkedinIcon className="w-5 h-5" />
+            <InstagramIcon className="w-5 h-5" />
           </a>
         </div>
 
@@ -123,38 +120,35 @@ export default function Navbar() {
             className="fixed inset-0 z-40 bg-[#121212]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8"
           >
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link}
-                href={`#${link.toLowerCase()}`}
+                href={link === "Work" ? "/works" : `/#${link.toLowerCase()}`}
                 onClick={() => setIsOpen(false)}
                 className="text-3xl font-black tracking-tighter transition-colors"
-                style={{ color: 'var(--color-text-primary)' }}
+                style={{ color: "var(--color-text-primary)" }}
               >
                 {link}
-              </a>
+              </Link>
             ))}
             <div className="flex gap-6 mt-8">
-              <button className="flex items-center gap-2 bg-white text-[#121212] px-6 py-3 rounded-full text-sm font-semibold">
-                <FileText className="w-4 h-4" /> Resume
-              </button>
               <div className="flex items-center gap-4 px-4">
                 <a
                   href="https://github.com"
                   target="_blank"
                   rel="noopener"
                   className="transition-colors"
-                  style={{ color: 'var(--color-text-primary)' }}
+                  style={{ color: "var(--color-text-primary)" }}
                 >
                   <GithubIcon className="w-6 h-6" />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://instagram.com"
                   target="_blank"
                   rel="noopener"
                   className="transition-colors"
-                  style={{ color: 'var(--color-text-primary)' }}
+                  style={{ color: "var(--color-text-primary)" }}
                 >
-                  <LinkedinIcon className="w-6 h-6" />
+                  <InstagramIcon className="w-6 h-6" />
                 </a>
               </div>
             </div>
