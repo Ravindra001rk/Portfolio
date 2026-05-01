@@ -4,12 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 /* ── Animation helpers ─────────────────────────────────────────── */
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1], delay },
-});
-
 const fadeIn = (delay = 0) => ({
   initial: { opacity: 0 },
   animate: { opacity: 1 },
@@ -25,7 +19,6 @@ const rotatingHeroWords = [
 ];
 
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
   const [activeWordIndex, setActiveWordIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -34,8 +27,6 @@ export default function Hero() {
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-
     // Fake loading progress
     const interval = setInterval(() => {
       setLoadProgress((p) => {
