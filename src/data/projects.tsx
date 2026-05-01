@@ -6,6 +6,14 @@ import {
   Shield,
   Database,
   Search,
+  ShoppingCart,
+  Tag,
+  Home,
+  Settings,
+  Sparkles,
+  Trophy,
+  Zap,
+  MonitorSmartphone,
 } from "lucide-react";
 
 export type ProjectFeature = {
@@ -98,6 +106,92 @@ export const projects: Project[] = [
       { label: "SMS", value: "Sparrow SMS API" },
       { label: "Hosting", value: "Vercel + Render" },
       { label: "Domain", value: ".com.np custom domain" },
+    ],
+  },
+  {
+    id: "2",
+    slug: "shabda-yatra-bookstore",
+    category: "Full Stack E-commerce",
+    title: "MERN Stack E-commerce Book Store",
+    shortDesc:
+      "A comprehensive online bookstore for fiction, non-fiction, and novels with a dynamic shopping experience.",
+    tags: ["MongoDB", "Express.js", "React", "Node.js", "Tailwind CSS"],
+    liveUrl: "https://shabda-yatra-frontend.vercel.app/",
+    heroImage: "/shabdayatra.png",
+    features: [
+      {
+        icon: <ShoppingCart className="w-5 h-5" />,
+        color: "from-blue-500 to-cyan-400",
+        title: "Advanced Cart System",
+        desc: "Seamless shopping cart with real-time updates and simplified checkout process.",
+      },
+      {
+        icon: <Tag className="w-5 h-5" />,
+        color: "from-emerald-500 to-teal-400",
+        title: "Coupon Engine",
+        desc: "Dynamic coupon application system integrated into both cart and checkout.",
+      },
+      {
+        icon: <Home className="w-5 h-5" />,
+        color: "from-orange-500 to-amber-400",
+        title: "Dynamic Layouts",
+        desc: "Customizable homepage with dynamic sections and flexible hero presentations.",
+      },
+      {
+        icon: <Settings className="w-5 h-5" />,
+        color: "from-purple-500 to-violet-400",
+        title: "Admin Dashboard",
+        desc: "Powerful administration tools to manage inventory, process orders, and control site content.",
+      },
+    ],
+    stack: [
+      { label: "Frontend", value: "React + Tailwind CSS" },
+      { label: "Backend", value: "Node.js + Express" },
+      { label: "Database", value: "MongoDB" },
+      { label: "Hosting", value: "Vercel" },
+    ],
+  },
+  {
+    id: "3",
+    slug: "vista-showcase",
+    category: "Award-Winning Frontend",
+    title: "Vista - Premium Showcase Site",
+    shortDesc:
+      "An immersive, award-winning frontend experience crafted with React, GSAP, and Framer Motion for stunning visual storytelling.",
+    tags: ["React", "GSAP", "Framer Motion", "Tailwind CSS", "Frontend"],
+    liveUrl: "https://ravindra001rk.github.io/Vista/",
+    heroImage: "/vista.png",
+    features: [
+      {
+        icon: <Trophy className="w-5 h-5" />,
+        color: "from-yellow-500 to-amber-400",
+        title: "Award-Winning Design",
+        desc: "Recognized for exceptional design, creativity, and innovative use of modern frontend web technologies.",
+      },
+      {
+        icon: <Sparkles className="w-5 h-5" />,
+        color: "from-purple-500 to-pink-400",
+        title: "Immersive Animations",
+        desc: "Complex, high-performance scroll and interaction animations powered by GSAP and Framer Motion.",
+      },
+      {
+        icon: <MonitorSmartphone className="w-5 h-5" />,
+        color: "from-blue-500 to-cyan-400",
+        title: "Fluid Responsiveness",
+        desc: "Flawless responsive layouts that maintain premium aesthetic quality across all device scales.",
+      },
+      {
+        icon: <Zap className="w-5 h-5" />,
+        color: "from-amber-500 to-orange-400",
+        title: "Optimized Performance",
+        desc: "Smooth 60fps rendering despite demanding animation workloads, ensuring a perfect user experience.",
+      },
+    ],
+    stack: [
+      { label: "Frontend", value: "React + Tailwind CSS" },
+      { label: "Animations", value: "GSAP + Framer Motion" },
+      { label: "Design", value: "Awwwards Grade Experience" },
+      { label: "Hosting", value: "Vercel" },
     ],
   },
 ];

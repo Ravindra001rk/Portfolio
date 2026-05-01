@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -20,6 +20,8 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   const navLinks = [
     "About",
@@ -29,9 +31,35 @@ export default function Navbar() {
     "Contact",
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > lastScrollY.current;
+      const pastThreshold = currentScrollY > 80;
+
+      setIsHidden(pastThreshold && scrollingDown && !isOpen);
+      if (currentScrollY <= 10) setIsHidden(false);
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    lastScrollY.current = window.scrollY;
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) setIsHidden(false);
+  }, [isOpen]);
+
   return (
     <>
-      <motion.nav className="fixed top-0 left-0 z-50 w-full z-50 px-6 py-4 md:px-8 md:py-6 flex justify-between items-center transition-all duration-300 bg-transparent backdrop-blur-[8px]">
+      <motion.nav
+        className="fixed top-0 left-0 z-50 w-full px-6 py-4 md:px-8 md:py-6 flex justify-between items-center bg-black/10 backdrop-blur-[10px] border-b border-white/5"
+        animate={{ y: isHidden ? "-110%" : 0 }}
+        transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
+      >
         {/* Left: Logo */}
         <div className="font-black text-xl tracking-tighter cursor-pointer relative z-[60]" style={{ color: 'var(--color-text-primary)' }}>
           RAVINDRA.
