@@ -16,8 +16,17 @@ const fadeIn = (delay = 0) => ({
   transition: { duration: 0.9, ease: "easeOut" as const, delay },
 });
 
+const rotatingHeroWords = [
+  "FRONTEND",
+  "BACKEND",
+  "MERN APPS",
+  "WEB SYSTEMS",
+  "APIS",
+];
+
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
+  const [activeWordIndex, setActiveWordIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Loader state
@@ -46,6 +55,16 @@ export default function Hero() {
   }, []);
 
   const isLoaded = loadProgress >= 1 && minTimeElapsed;
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const interval = setInterval(() => {
+      setActiveWordIndex((index) => (index + 1) % rotatingHeroWords.length);
+    }, 2200);
+
+    return () => clearInterval(interval);
+  }, [isLoaded]);
 
   /* ── Grain canvas ──────────────────────────────────────────────── */
   useEffect(() => {
@@ -240,10 +259,25 @@ export default function Hero() {
                     }}
                   />
                   <span
-                    className="relative text-black py-4 px-4 inline-block"
+                    className="relative text-black py-4 px-4 inline-grid min-w-[8.5ch] overflow-hidden align-top"
                     style={{ zIndex: 1 }}
+                    aria-live="polite"
                   >
-                    REAL WEB SYSTEMS
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.span
+                        key={rotatingHeroWords[activeWordIndex]}
+                        className="col-start-1 row-start-1 inline-block"
+                        initial={{ y: "105%", opacity: 0, filter: "blur(8px)" }}
+                        animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                        exit={{ y: "-105%", opacity: 0, filter: "blur(8px)" }}
+                        transition={{
+                          duration: 0.55,
+                          ease: [0.76, 0, 0.24, 1],
+                        }}
+                      >
+                        {rotatingHeroWords[activeWordIndex]}
+                      </motion.span>
+                    </AnimatePresence>
                   </span>
                 </motion.span>
               </motion.h1>
