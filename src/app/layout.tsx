@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Josefin_Sans } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -34,7 +35,9 @@ export default function RootLayout({
         className={`${outfit.className} ${outfit.variable} ${josefin.variable} antialiased`}
       >
         <SmoothScrollProvider>
-          <PageScrollRestoration />
+          <Suspense fallback={null}>
+            <PageScrollRestoration />
+          </Suspense>
           {children}
           <ScrollToTop />
         </SmoothScrollProvider>
