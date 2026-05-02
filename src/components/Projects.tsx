@@ -81,7 +81,7 @@ export default function Projects() {
 
   return (
     <section
-      id="work"
+      
       className="bg-[#121212] text-white relative z-20 overflow-hidden"
     >
       {/* ── Section Header ── */}
@@ -104,7 +104,7 @@ export default function Projects() {
 
       {/* ── Project Cards ── */}
       <div className="px-6 md:px-16 lg:px-24 pb-32 flex flex-col gap-16">
-        {projects.map((project) => (
+        {projects.filter(p => p.featured !== false).map((project) => (
           <motion.div
             key={project.id}
             initial={{ opacity: 0, y: 60 }}

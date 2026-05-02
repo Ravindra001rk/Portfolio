@@ -39,12 +39,14 @@ export type Project = {
   heroImage: string;
   features: ProjectFeature[];
   stack: StackItem[];
+  featured?: boolean;
 };
 
 export const projects: Project[] = [
   {
     id: "1",
     slug: "id-card-system",
+    featured: true,
     category: "Featured Case Study",
     title: "A complete system for ID cards, photo retrieval and workflows.",
     shortDesc:
@@ -111,6 +113,7 @@ export const projects: Project[] = [
   {
     id: "2",
     slug: "shabda-yatra-bookstore",
+    featured: true,
     category: "Full Stack E-commerce",
     title: "MERN Stack E-commerce Book Store",
     shortDesc:
@@ -154,6 +157,7 @@ export const projects: Project[] = [
   {
     id: "3",
     slug: "vista-showcase",
+    featured: false,
     category: "Award-Winning Frontend",
     title: "Vista - Premium Showcase Site",
     shortDesc:
@@ -192,6 +196,52 @@ export const projects: Project[] = [
       { label: "Animations", value: "GSAP + Framer Motion" },
       { label: "Design", value: "Awwwards Grade Experience" },
       { label: "Hosting", value: "Vercel" },
+    ],
+  },
+  {
+    id: "4",
+    slug: "horizon-academy",
+    featured: true,
+    category: "Educational ERP / School Portal",
+    title: "Horizon Academy - School Management System",
+    shortDesc:
+      "A comprehensive digital ecosystem for modern educational institutions, featuring automated workflows, role-based portals, and powerful administrative tools.",
+    tags: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+    liveUrl: "https://horizon-academy-frontend.vercel.app",
+    heroImage: "/horizon.png",
+    features: [
+      {
+        icon: <Database className="w-5 h-5" />,
+        color: "from-blue-500 to-cyan-400",
+        title: "Bulk Data Import",
+        desc: "Seamlessly import students and teachers from Excel with automated validation and credential generation.",
+      },
+      {
+        icon: <Shield className="w-5 h-5" />,
+        color: "from-emerald-500 to-teal-400",
+        title: "Role-Based Portals",
+        desc: "Dedicated interfaces for Admins, Teachers, and Students to manage grades, homework, and notices securely.",
+      },
+      {
+        icon: <Layout className="w-5 h-5" />,
+        color: "from-orange-500 to-amber-400",
+        title: "Dynamic Homepage CMS",
+        desc: "Fully editable public-facing site allowing admins to update news, events, and gallery directly from the dashboard.",
+      },
+      {
+        icon: <Smartphone className="w-5 h-5" />,
+        color: "from-purple-500 to-violet-400",
+        title: "Results & Homework Tooling",
+        desc: "Streamlined assignment submissions and grade processing using Excel result templates and server-side imports.",
+      },
+    ],
+    stack: [
+      { label: "Frontend", value: "React (v19) + Vite + Tailwind CSS" },
+      { label: "Backend", value: "Node.js + Express" },
+      { label: "Database", value: "MongoDB + Mongoose" },
+      { label: "Authentication", value: "JWT Auth (Cookies)" },
+      { label: "Storage", value: "Cloudinary + Multer" },
+      { label: "Utilities", value: "xlsx, react-router-dom, Framer Motion" },
     ],
   },
 ];

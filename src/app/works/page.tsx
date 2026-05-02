@@ -7,7 +7,15 @@ import Link from "next/link";
 import { ChevronRight, ExternalLink } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 
-function SplitTitle({ text, className = "", style }: { text: string; className?: string; style?: React.CSSProperties; }) {
+function SplitTitle({
+  text,
+  className = "",
+  style,
+}: {
+  text: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   const ref = useRef<HTMLHeadingElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
   const words = text.split(" ");
@@ -19,7 +27,11 @@ function SplitTitle({ text, className = "", style }: { text: string; className?:
             className="inline-block"
             initial={{ y: "110%" }}
             animate={inView ? { y: "0%" } : { y: "110%" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: wi * 0.08 }}
+            transition={{
+              duration: 0.7,
+              ease: [0.22, 1, 0.36, 1],
+              delay: wi * 0.08,
+            }}
           >
             {word}
           </motion.span>
@@ -36,15 +48,6 @@ export default function WorksPage() {
 
       {/* Hero Section for Works */}
       <section className="pt-40 pb-20 px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto relative z-20">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-xs tracking-[0.3em] uppercase mb-4"
-          style={{ color: "var(--color-label)" }}
-        >
-          Archive
-        </motion.p>
         <SplitTitle
           text="All Works"
           className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
@@ -56,7 +59,8 @@ export default function WorksPage() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-6 text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed"
         >
-          A comprehensive collection of my projects, ranging from robust full-stack applications to dynamic frontend experiences.
+          A comprehensive collection of my projects, ranging from robust
+          full-stack applications to dynamic frontend experiences.
         </motion.p>
       </section>
 
@@ -69,12 +73,20 @@ export default function WorksPage() {
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-5%" }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: (index % 2) * 0.1 }}
+              transition={{
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+                delay: (index % 2) * 0.1,
+              }}
               className="group relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm overflow-hidden flex flex-col h-full"
             >
               {/* Top: Image */}
               <div className="w-full aspect-video relative overflow-hidden border-b border-white/5">
-                <Link href={`/projects/${project.slug}`} className="block w-full h-full" prefetch={true}>
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="block w-full h-full"
+                  prefetch={true}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={project.heroImage}

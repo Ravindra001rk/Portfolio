@@ -1,9 +1,18 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { 
-  SiReact, SiNextdotjs, SiNodedotjs, SiTypescript, SiTailwindcss, 
-  SiMongodb, SiExpress, SiFramer, SiThreedotjs, SiGreensock, SiAngular 
+import {
+  SiReact,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiMongodb,
+  SiExpress,
+  SiFramer,
+  SiThreedotjs,
+  SiGreensock,
+  SiAngular,
 } from "react-icons/si";
 import { motion, useAnimationFrame, useMotionValue, wrap } from "framer-motion";
 
@@ -25,7 +34,7 @@ export default function Arsenal() {
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [contentWidth, setContentWidth] = useState(0);
-  
+
   const x = useMotionValue(0);
   const rowRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +46,7 @@ export default function Arsenal() {
         setContentWidth(rowRef.current.scrollWidth / 3);
       }
     };
-    
+
     measureList();
     window.addEventListener("resize", measureList);
     return () => window.removeEventListener("resize", measureList);
@@ -56,30 +65,38 @@ export default function Arsenal() {
   });
 
   return (
-    <section id="arsenal" className="w-full bg-[#121212] py-24 md:py-32 flex flex-col items-center border-t border-white/5 z-20 relative overflow-hidden">
+    <section
+      id="arsenal"
+      className="w-full bg-[#121212] py-24 md:py-32 flex flex-col items-center border-t border-white/5 z-20 relative overflow-hidden"
+    >
       <div className="w-full px-6 md:px-16 lg:px-24 flex flex-col items-center md:items-start text-center md:text-left">
-       <div className="max-w-7xl mx-auto w-full md:mx-0">
-         <p className="font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2" style={{ color: 'var(--color-label)' }}>
-          Technologies & Tools
-        </p>
-         <h2 className="text-4xl md:text-6xl font-black mb-16 tracking-tighter" style={{ color: 'var(--color-text-primary)' }}>
-          My Arsenal
-        </h2>
-       </div>
+        <div className="max-w-7xl mx-auto w-full md:mx-0">
+          <p
+            className="font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2"
+            style={{ color: "var(--color-label)" }}
+          >
+            Technologies & Tools
+          </p>
+          <h2
+            className="text-4xl md:text-6xl font-black mb-16 tracking-tighter"
+            style={{ color: "var(--color-text-primary)" }}
+          >
+            My Arsenal
+          </h2>
+        </div>
 
         {/* Marquee Row */}
-        <div 
+        <div
           className="relative w-full overflow-hidden py-6 border-y border-white/5 bg-black/20 backdrop-blur-sm -mx-4 md:mx-0 md:rounded-3xl md:border-x cursor-grab active:cursor-grabbing"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          
           {/* Fade gradients */}
           <div className="absolute top-0 left-0 bottom-0 w-16 md:w-48 bg-gradient-to-r from-[#121212] to-transparent z-10 pointer-events-none rounded-l-3xl" />
           <div className="absolute top-0 right-0 bottom-0 w-16 md:w-48 bg-gradient-to-l from-[#121212] to-transparent z-10 pointer-events-none rounded-r-3xl" />
 
           {/* Draggable Motion Element */}
-          <motion.div 
+          <motion.div
             ref={rowRef}
             drag="x"
             dragConstraints={{ right: 0, left: -contentWidth }} // Clamp drag within looping zone
@@ -93,19 +110,26 @@ export default function Arsenal() {
             className="flex w-max"
           >
             {/* Render 3 copies to ensure no visual break points during wrap (-width to 0) */}
-            {[...arsenalTools, ...arsenalTools, ...arsenalTools].map((tool, index) => (
-              <div
-                key={index}
-                className="group flex flex-grow-0 shrink-0 items-center justify-center gap-4 px-8 py-4 mx-3 md:mx-4 rounded-full border border-white/5 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
-              >
-                <div className="w-6 h-6 flex items-center justify-center transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
-                  <tool.Icon className={`w-full h-full ${tool.color} drop-shadow-md pointer-events-none`} />
+            {[...arsenalTools, ...arsenalTools, ...arsenalTools].map(
+              (tool, index) => (
+                <div
+                  key={index}
+                  className="group flex flex-grow-0 shrink-0 items-center justify-center gap-4 px-8 py-4 mx-3 md:mx-4 rounded-full border border-white/5 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+                >
+                  <div className="w-6 h-6 flex items-center justify-center transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                    <tool.Icon
+                      className={`w-full h-full ${tool.color} drop-shadow-md pointer-events-none`}
+                    />
+                  </div>
+                  <span
+                    className="text-sm md:text-lg font-bold tracking-tight group-hover:text-white transition-colors pointer-events-none select-none"
+                    style={{ color: "var(--color-text-muted)" }}
+                  >
+                    {tool.name}
+                  </span>
                 </div>
-                 <span className="text-sm md:text-lg font-bold tracking-tight group-hover:text-white transition-colors pointer-events-none select-none" style={{ color: 'var(--color-text-muted)' }}>
-                  {tool.name}
-                </span>
-              </div>
-            ))}
+              ),
+            )}
           </motion.div>
         </div>
       </div>

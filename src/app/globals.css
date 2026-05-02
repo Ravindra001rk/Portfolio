@@ -4,20 +4,24 @@
 
 :root {
   /* ── Unified Color Palette ─────────────────────────────────── */
-  --color-bg:          #121212;   /* page background              */
-  --color-text-primary:#E8E8E2;   /* headings, logo, key copy     */
-  --color-text-muted:  #9B9B8E;   /* body copy, descriptions      */
-  --color-text-dim:    #4a4a4a;   /* secondary labels, arrows     */
-  --color-text-unlit:  #2a2a2a;   /* unlit scroll-reveal chars    */
-  --color-accent:      #ff6b35;   /* orange CTA / accent text     */
-  --color-label:       #6b6b6b;   /* section labels (uppercase)   */
+  --color-bg: #121212; /* page background              */
+  --color-text-primary: #e8e8e2; /* headings, logo, key copy     */
+  --color-text-muted: #9b9b8e; /* body copy, descriptions      */
+  --color-text-dim: #4a4a4a; /* secondary labels, arrows     */
+  --color-text-unlit: #2a2a2a; /* unlit scroll-reveal chars    */
+  --color-accent: #ff6b35; /* orange CTA / accent text     */
+  --color-label: #6b6b6b; /* section labels (uppercase)   */
 }
 
 @layer base {
   body {
     background-color: var(--color-bg);
     color: var(--color-text-primary);
-    font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
+    font-family:
+      var(--font-outfit),
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
   ::selection {
     background-color: rgba(255, 107, 53, 0.9);
@@ -32,8 +36,12 @@
 } */
 
 @keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
