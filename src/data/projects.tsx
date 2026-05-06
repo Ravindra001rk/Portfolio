@@ -255,7 +255,7 @@ export const projects: Project[] = [
     shortDesc:
       "A marketing site showcasing Nexus University's programs, campus life, and admissions with engaging visuals and clear CTAs.",
     tags: ["Next.js", "Tailwind CSS", "Design", "Accessibility"],
-    heroImage: "/sequence/nexus-university.svg",
+    heroImage: "/nexus.png",
     features: [
       {
         icon: <Layout className="w-5 h-5" />,
