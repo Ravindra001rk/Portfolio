@@ -11,10 +11,10 @@ const fadeIn = (delay = 0) => ({
 });
 
 const rotatingHeroWords = [
-  "SCALABLE WEB APPS",
-  "CUSTOM ADMIN PANELS",
-  "MERN STACK SYSTEMS",
-  "REAL-WORLD PROJECTS",
+  "WEB APPS",
+  "ADMIN PANELS",
+  "MERN SYSTEMS",
+  "REAL PROJECTS",
 ];
 export default function Hero() {
   const [activeWordIndex, setActiveWordIndex] = useState(0);

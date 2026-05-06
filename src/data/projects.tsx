@@ -244,4 +244,49 @@ export const projects: Project[] = [
       { label: "Utilities", value: "xlsx, react-router-dom, Framer Motion" },
     ],
   },
+  {
+    id: "5",
+    slug: "nexus-university",
+    featured: true,
+    category: "University Marketing Site",
+    title: "Nexus University — Turn Your Ambition into Achievement",
+    liveUrl: "https://nexus-wine-xi.vercel.app/",
+
+    shortDesc:
+      "A marketing site showcasing Nexus University's programs, campus life, and admissions with engaging visuals and clear CTAs.",
+    tags: ["Next.js", "Tailwind CSS", "Design", "Accessibility"],
+    heroImage: "/sequence/nexus-university.svg",
+    features: [
+      {
+        icon: <Layout className="w-5 h-5" />,
+        color: "from-blue-500 to-cyan-400",
+        title: "Hero Showcase",
+        desc: "Large, responsive hero with rounded imagery and compelling call-to-action buttons.",
+      },
+      {
+        icon: <Sparkles className="w-5 h-5" />,
+        color: "from-purple-500 to-pink-400",
+        title: "Brand Experience",
+        desc: "Polished UI with custom typography, soft gradients, and subtle depth.",
+      },
+      {
+        icon: <Trophy className="w-5 h-5" />,
+        color: "from-yellow-500 to-amber-400",
+        title: "Metrics & Social Proof",
+        desc: "Prominent stats, alumni avatars, and ranking badges to build trust.",
+      },
+      {
+        icon: <MonitorSmartphone className="w-5 h-5" />,
+        color: "from-emerald-500 to-teal-400",
+        title: "Responsive & Accessible",
+        desc: "Mobile-first layout with clear hierarchy and accessible controls.",
+      },
+    ],
+    stack: [
+      { label: "Frontend", value: "Next.js + Tailwind CSS" },
+      { label: "Animations", value: "Framer Motion + Lenis" },
+      { label: "Images", value: "Optimized SVG/AVIF assets" },
+      { label: "Deployment", value: "Vercel" },
+    ],
+  },
 ];
