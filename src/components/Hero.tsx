@@ -4,11 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 /* ── Animation helpers ─────────────────────────────────────────── */
-const fadeIn = (delay = 0) => ({
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  transition: { duration: 0.9, ease: "easeOut" as const, delay },
-});
 
 const rotatingHeroWords = [
   "WEB APPS",
