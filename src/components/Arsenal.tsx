@@ -15,6 +15,7 @@ import {
   SiAngular,
 } from "react-icons/si";
 import { motion, useAnimationFrame, useMotionValue, wrap } from "framer-motion";
+import SplitScrollTitle from "./SplitScrollTitle";
 
 const arsenalTools = [
   { name: "React", Icon: SiReact, color: "text-[#61DAFB]" },
@@ -77,12 +78,11 @@ export default function Arsenal() {
           >
             Technologies & Tools
           </p>
-          <h2
+          <SplitScrollTitle
+            text="My Arsenal"
             className="text-4xl md:text-6xl font-black mb-16 tracking-tighter"
             style={{ color: "var(--color-text-primary)" }}
-          >
-            My Arsenal
-          </h2>
+          />
         </div>
 
         {/* Marquee Row */}

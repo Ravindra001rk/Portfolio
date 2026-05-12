@@ -46,6 +46,24 @@ export default function Hero() {
   const isLoaded = loadProgress >= 1 && minTimeElapsed;
 
   useEffect(() => {
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousOverflow = document.body.style.overflow;
+
+    if (!isLoaded) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousOverflow;
+    }
+
+    return () => {
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isLoaded]);
+
+  useEffect(() => {
     if (!isLoaded) return;
 
     const interval = setInterval(() => {
@@ -182,10 +200,10 @@ export default function Hero() {
         />
 
         {/* Horizontal rule top */}
-        <motion.div
+        {/* <motion.div
           {...fadeIn(0.1)}
           className="w-full h-px bg-white/10 mt-[72px] z-20 relative"
-        />
+        /> */}
 
         {/* Main content */}
         <div className="relative z-20 flex flex-col flex-1 justify-center lg:justify-end px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 max-w-[1400px] mx-auto w-full pt-16 lg:pt-0">

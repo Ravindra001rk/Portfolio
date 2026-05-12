@@ -81,7 +81,7 @@ export default function Projects() {
 
   return (
     <section
-      
+      id="works"
       className="bg-[#121212] text-white relative z-20 overflow-hidden"
     >
       {/* ── Section Header ── */}

@@ -5,6 +5,7 @@ import Arsenal from "@/components/Arsenal";
 import TextReveal from "@/components/TextReveal";
 import WhatIDo from "@/components/WhatIDo";
 import Contact from "@/components/Contact";
+import Process from "@/components/Process";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Projects />
       <Arsenal />
       <TextReveal />
+      <Process />
       <WhatIDo />
       <Contact />
     </main>

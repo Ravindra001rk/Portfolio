@@ -21,7 +21,11 @@ export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
 
-  const navLinks = ["About", "Experience", "Arsenal", "Work", "Contact"];
+  const navLinks = [
+    { label: "Works", href: "/works" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,11 +73,11 @@ export default function Navbar() {
         >
           {navLinks.map((link) => (
             <Link
-              key={link}
-              href={link === "Work" ? "/works" : `/#${link.toLowerCase()}`}
+              key={link.label}
+              href={link.href}
               className="hover:text-white transition-colors"
             >
-              {link}
+              {link.label}
             </Link>
           ))}
         </div>
@@ -121,13 +125,13 @@ export default function Navbar() {
           >
             {navLinks.map((link) => (
               <Link
-                key={link}
-                href={link === "Work" ? "/works" : `/#${link.toLowerCase()}`}
+                key={link.label}
+                href={link.href}
                 onClick={() => setIsOpen(false)}
                 className="text-3xl font-black tracking-tighter transition-colors"
                 style={{ color: "var(--color-text-primary)" }}
               >
-                {link}
+                {link.label}
               </Link>
             ))}
             <div className="flex gap-6 mt-8">

@@ -238,7 +238,7 @@ export default function Contact() {
               }
             >
               Have a project in mind or just want to say hi? My inbox is always
-              open — I&apos;ll get back to you within 24&nbsp;hours.
+              open — I&apos;ll get back to you within an hour.
             </motion.p>
 
             <div className="flex flex-col gap-6">
