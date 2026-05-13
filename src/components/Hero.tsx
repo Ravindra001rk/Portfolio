@@ -147,7 +147,7 @@ export default function Hero() {
                 delay: 0.1,
               },
             }}
-            className="fixed inset-0 z-[100] bg-[#111111] flex flex-col items-center justify-center text-white"
+            className="fixed inset-0 z-[200] bg-[#111111] flex flex-col items-center justify-center text-white"
           >
             <div className="flex flex-col items-stretch">
               <div className="flex justify-center overflow-hidden text-[80px] sm:text-[90px] md:text-[100px] lg:text-[130px] font-bold tracking-tighter leading-[1.1]">
