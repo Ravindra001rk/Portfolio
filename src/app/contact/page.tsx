@@ -10,7 +10,6 @@ import {
   MessageSquare,
   Phone,
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Contact from "@/components/Contact";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -84,7 +83,6 @@ const goodFits = [
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-[#121212] text-white selection:bg-[#ff6b35] selection:text-black">
-      <Navbar />
 
       <section className="relative overflow-hidden border-b border-white/5 px-6 pb-20 pt-36 md:px-16 md:pb-28 md:pt-44 lg:px-24">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -132,6 +130,18 @@ export default function ContactPage() {
               timeline, current problem, and any links or screenshots that help
               explain the work.
             </p>
+            <div className="mt-8">
+              <a
+                href="https://wa.me/9779855075137"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 px-8 py-3.5 rounded-full font-bold text-sm border-2 border-[#ff6b35] text-[#ff6b35] overflow-hidden relative transition-all duration-300 shadow-[0_0_20px_rgba(255,107,53,0.1)] hover:shadow-[0_0_30px_rgba(255,107,53,0.25)]"
+              >
+                <div className="absolute inset-0 bg-[#ff6b35] scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300 ease-out z-0" aria-hidden />
+                <span className="relative z-10 group-hover:text-black transition-colors duration-300 uppercase tracking-widest">Let&apos;s talk</span>
+                <span className="relative z-10 text-lg font-black group-hover:text-black transition-all duration-300 group-hover:translate-x-1">→</span>
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>

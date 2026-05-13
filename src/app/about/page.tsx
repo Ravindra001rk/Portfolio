@@ -13,7 +13,6 @@ import {
   Server,
   ShieldCheck,
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Contact from "@/components/Contact";
 
 const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
@@ -73,7 +72,7 @@ const timeline = [
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-[#121212] text-white selection:bg-[#ff6b35] selection:text-black">
-      <Navbar />
+
 
       <section className="relative overflow-hidden border-b border-white/5 px-6 pb-20 pt-36 md:px-16 md:pb-28 md:pt-44 lg:px-24">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -120,8 +119,8 @@ export default function AboutPage() {
               Birgunj, Nepal
             </div>
             <p className="text-lg leading-relaxed md:text-xl" style={{ color: "var(--color-text-muted)" }}>
-              I am a backend-focused MERN developer who builds practical web
-              systems: admin panels, school portals, application workflows,
+              I am a Full Stack Developer who builds practical web
+              systems: admin panels, School and collage portals, application workflows,
               e-commerce tools, and content-managed websites.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -132,13 +131,15 @@ export default function AboutPage() {
                 View Work
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
-              <Link
-                href="/contact"
+              <a
+                href="https://wa.me/9779855075137"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold transition-colors hover:border-white/35 hover:text-white"
                 style={{ color: "var(--color-text-muted)" }}
               >
                 Contact Me
-              </Link>
+              </a>
             </div>
           </motion.div>
         </div>
@@ -292,13 +293,15 @@ export default function AboutPage() {
               Need a system that is built for real use?
             </h2>
           </div>
-          <Link
-            href="/contact"
+          <a
+            href="https://wa.me/9779855075137"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex w-fit items-center gap-3 rounded-full border-2 border-[#ff6b35] px-8 py-4 text-sm font-bold uppercase tracking-widest text-[#ff6b35] transition-colors hover:bg-[#ff6b35] hover:text-black"
           >
             Start a conversation
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
+          </a>
         </div>
       </section>
 

@@ -20,6 +20,23 @@ export default function Hero() {
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
+    // Only show the loader when the user explicitly reloads the page
+    let shouldShowLoader = false;
+    try {
+      const navEntries = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
+      const navType = (navEntries?.[0]?.type || (performance as unknown as { navigation: { type: number } })?.navigation?.type) as string | number;
+      // 1 or "reload" means explicit full reload.
+      shouldShowLoader = navType === "reload" || navType === 1;
+    } catch {
+      shouldShowLoader = false;
+    }
+
+    if (!shouldShowLoader) {
+      setLoadProgress(1);
+      setMinTimeElapsed(true);
+      return;
+    }
+
     // Fake loading progress
     const interval = setInterval(() => {
       setLoadProgress((p) => {
@@ -41,20 +58,23 @@ export default function Hero() {
   const isLoaded = loadProgress >= 1 && minTimeElapsed;
 
   useEffect(() => {
-    const previousHtmlOverflow = document.documentElement.style.overflow;
-    const previousOverflow = document.body.style.overflow;
-
     if (!isLoaded) {
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
     } else {
-      document.documentElement.style.overflow = previousHtmlOverflow;
-      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
     }
 
     return () => {
-      document.documentElement.style.overflow = previousHtmlOverflow;
-      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
     };
   }, [isLoaded]);
 
@@ -122,9 +142,9 @@ export default function Hero() {
             exit={{
               y: "-100%",
               transition: {
-                duration: 0.8,
+                duration: 0.6,
                 ease: [0.76, 0, 0.24, 1],
-                delay: 0.2,
+                delay: 0.1,
               },
             }}
             className="fixed inset-0 z-[100] bg-[#111111] flex flex-col items-center justify-center text-white"
@@ -213,9 +233,9 @@ export default function Hero() {
               >
                 {/* Line 1 — I BUILD */}
                 <motion.span
-                  className="block text-white mb-4 md:mb-0"
+                  className="block text-white mb-2 md:mb-0"
                   style={{
-                    fontSize: "clamp(5rem, 12vw, 10rem)",
+                    fontSize: "clamp(3rem, 14vw, 10rem)",
                   }}
                   initial={{ y: "110%" }}
                   animate={isLoaded ? { y: 0 } : {}}
@@ -230,9 +250,9 @@ export default function Hero() {
 
                 {/* Line 2 — REAL WEB SYSTEMS (highlighted) */}
                 <motion.span
-                  className="block relative mt-4 md:mt-0"
+                  className="block relative mt-2 md:mt-0"
                   style={{
-                    fontSize: "clamp(3.2rem, 10vw, 8rem)",
+                    fontSize: "clamp(2rem, 11vw, 8rem)",
                   }}
                   initial={{ y: "110%" }}
                   animate={isLoaded ? { y: 0 } : {}}
@@ -245,12 +265,12 @@ export default function Hero() {
                   {/* Highlight box behind text - Animated width */}
                   <motion.span
                     aria-hidden
-                    className="absolute left-0 inset-y-[6%] rounded-[6px] pointer-events-none"
+                    className="absolute left-0 inset-y-[10%] rounded-[4px] md:rounded-[8px] pointer-events-none"
                     style={{
                       background: "#ff6b35",
                       zIndex: -1,
-                      marginLeft: "-0.04em",
-                      marginRight: "-0.04em",
+                      marginLeft: "-0.02em",
+                      marginRight: "-0.02em",
                     }}
                     initial={{ width: "0%" }}
                     animate={isLoaded ? { width: "100%" } : {}}
@@ -261,11 +281,11 @@ export default function Hero() {
                     }}
                   />
                   <span
-                    className="relative text-black py-4 px-4 inline-grid min-w-[8.5ch] overflow-hidden align-top"
+                    className="relative text-black py-2 md:py-4 px-3 md:px-5 inline-grid min-w-[10ch] overflow-hidden align-top"
                     style={{ zIndex: 1 }}
                     aria-live="polite"
                   >
-                    <AnimatePresence mode="wait" initial={false}>
+                    <AnimatePresence initial={false}>
                       <motion.div
                         key={rotatingHeroWords[activeWordIndex]}
                         className="col-start-1 row-start-1 flex flex-wrap"
@@ -284,7 +304,7 @@ export default function Hero() {
                             return (
                               <span
                                 key={wordIndex}
-                                className="inline-block whitespace-nowrap mr-[0.3em] last:mr-0"
+                                className="inline-block whitespace-nowrap mr-[0.25em] last:mr-0"
                               >
                                 {word.split("").map((char, charIndex) => (
                                   <motion.span
@@ -295,7 +315,7 @@ export default function Hero() {
                                       exit: { y: "-105%", opacity: 0 },
                                     }}
                                     transition={{
-                                      duration: 0.25,
+                                      duration: 0.3,
                                       ease: [0.33, 1, 0.68, 1],
                                       delay:
                                         (globalStartIndex + charIndex) * 0.02,
@@ -361,7 +381,7 @@ export default function Hero() {
                     aria-hidden
                   />
                   <span className="relative z-10 group-hover:text-black transition-colors duration-300 uppercase tracking-widest">
-                    View My Work
+                    View My Works
                   </span>
                   <span className="relative z-10 text-lg font-black group-hover:text-black transition-all duration-300 group-hover:translate-x-1">
                     →

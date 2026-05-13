@@ -22,6 +22,8 @@ export const metadata: Metadata = {
 import ScrollToTop from "@/components/ScrollToTop";
 import SmoothScrollProvider from "@/components/LenisProvider";
 import PageScrollRestoration from "@/components/PageScrollRestoration";
+import BottomNav from "@/components/BottomNav";
+import Navbar from "@/components/Navbar";
 
 export default function RootLayout({
   children,
@@ -38,7 +40,9 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <PageScrollRestoration />
           </Suspense>
+          <Navbar />
           {children}
+          <BottomNav />
           <ScrollToTop />
         </SmoothScrollProvider>
       </body>

@@ -30,10 +30,10 @@
 }
 
 /* Hide scrollbar for a seamless experience */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0px;
   background: transparent; 
-} */
+}
 
 @keyframes marquee {
   0% {

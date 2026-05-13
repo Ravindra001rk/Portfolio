@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef } from "react";
-import Navbar from "@/components/Navbar";
 import Contact from "@/components/Contact";
 import { projects } from "@/data/projects";
 import Link from "next/link";
@@ -44,7 +43,7 @@ function SplitTitle({
 export default function WorksPage() {
   return (
     <main className="bg-[#121212] min-h-screen text-white selection:bg-[#ff6b35] selection:text-black">
-      <Navbar />
+
 
       {/* Hero Section for Works */}
       <section className="pt-40 pb-20 px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto relative z-20">
