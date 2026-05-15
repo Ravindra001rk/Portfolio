@@ -88,7 +88,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-xs tracking-[0.3em] uppercase mb-4"
+          className="font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2"
           style={{ color: "var(--color-label)" }}
         >
           Selected Work

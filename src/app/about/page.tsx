@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import SplitHeader from "@/components/SplitHeader";
 import {
   ArrowUpRight,
   Code2,
@@ -72,8 +73,6 @@ const timeline = [
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-[#121212] text-white selection:bg-[#ff6b35] selection:text-black">
-
-
       <section className="relative overflow-hidden border-b border-white/5 px-6 pb-20 pt-36 md:px-16 md:pb-28 md:pt-44 lg:px-24">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div
@@ -96,16 +95,17 @@ export default function AboutPage() {
             >
               About Me
             </motion.p>
-            <motion.h1
+            <motion.div
               initial={{ opacity: 0, y: 48 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.85, ease: EASE }}
-              className="font-black uppercase leading-none tracking-tighter text-6xl md:text-8xl lg:text-[8.5rem]"
-              style={{ fontFamily: "var(--font-josefin)" }}
             >
-              Ravindra
-              <span className="block text-[#ff6b35]">Kushwaha.</span>
-            </motion.h1>
+              <SplitHeader
+                text="Ravindra Kushwaha."
+                className="font-black uppercase leading-none tracking-tighter text-6xl md:text-8xl lg:text-[8.5rem]"
+                style={{ fontFamily: "var(--font-josefin)" }}
+              />
+            </motion.div>
           </div>
 
           <motion.div
@@ -114,13 +114,19 @@ export default function AboutPage() {
             transition={{ duration: 0.75, ease: EASE, delay: 0.15 }}
             className="max-w-xl lg:justify-self-end"
           >
-            <div className="mb-6 flex items-center gap-3 text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
+            <div
+              className="mb-6 flex items-center gap-3 text-sm font-medium"
+              style={{ color: "var(--color-text-muted)" }}
+            >
               <MapPin className="h-4 w-4 text-[#ff6b35]" />
               Birgunj, Nepal
             </div>
-            <p className="text-lg leading-relaxed md:text-xl" style={{ color: "var(--color-text-muted)" }}>
-              I am a Full Stack Developer who builds practical web
-              systems: admin panels, School and collage portals, application workflows,
+            <p
+              className="text-lg leading-relaxed md:text-xl"
+              style={{ color: "var(--color-text-muted)" }}
+            >
+              I am a Full Stack Developer who builds practical web systems:
+              admin panels, School and collage portals, application workflows,
               e-commerce tools, and content-managed websites.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -159,7 +165,10 @@ export default function AboutPage() {
               <p className="text-4xl font-black tracking-tighter text-[#ff6b35] md:text-5xl">
                 {item.value}
               </p>
-              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--color-label)" }}>
+              <p
+                className="mt-2 text-xs font-semibold uppercase tracking-[0.2em]"
+                style={{ color: "var(--color-label)" }}
+              >
                 {item.label}
               </p>
             </motion.div>
@@ -170,12 +179,18 @@ export default function AboutPage() {
       <section className="px-6 py-24 md:px-16 md:py-32 lg:px-24">
         <div className="mx-auto max-w-[1400px]">
           <div className="mb-14 max-w-3xl">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--color-label)" }}>
+            <p
+              className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]"
+              style={{ color: "var(--color-label)" }}
+            >
               What I Focus On
             </p>
             <h2
               className="font-black uppercase leading-none tracking-tighter text-5xl md:text-7xl"
-              style={{ fontFamily: "var(--font-josefin)", color: "var(--color-text-primary)" }}
+              style={{
+                fontFamily: "var(--font-josefin)",
+                color: "var(--color-text-primary)",
+              }}
             >
               Useful systems, clean structure, real workflows.
             </h2>
@@ -217,7 +232,10 @@ export default function AboutPage() {
       <section className="border-t border-white/5 px-6 py-24 md:px-16 md:py-32 lg:px-24">
         <div className="mx-auto grid max-w-[1400px] gap-14 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--color-label)" }}>
+            <p
+              className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]"
+              style={{ color: "var(--color-label)" }}
+            >
               Working Style
             </p>
             <h2
@@ -231,10 +249,22 @@ export default function AboutPage() {
 
           <div className="grid gap-6">
             {[
-              ["Clear scope", "I start by understanding the actual task, users, data, and success criteria before building screens."],
-              ["Simple architecture", "I prefer direct, understandable structures that are easy to maintain and extend."],
-              ["Usable details", "Forms, validation, loading states, empty states, and mobile layouts get attention because real users depend on them."],
-              ["Deployment mindset", "I think about hosting, environment variables, assets, APIs, and production behavior early."],
+              [
+                "Clear scope",
+                "I start by understanding the actual task, users, data, and success criteria before building screens.",
+              ],
+              [
+                "Simple architecture",
+                "I prefer direct, understandable structures that are easy to maintain and extend.",
+              ],
+              [
+                "Usable details",
+                "Forms, validation, loading states, empty states, and mobile layouts get attention because real users depend on them.",
+              ],
+              [
+                "Deployment mindset",
+                "I think about hosting, environment variables, assets, APIs, and production behavior early.",
+              ],
             ].map(([title, text], index) => (
               <motion.div
                 key={title}
@@ -248,7 +278,10 @@ export default function AboutPage() {
                   <ShieldCheck className="h-5 w-5 text-[#ff6b35]" />
                   <h3 className="text-xl font-bold tracking-tight">{title}</h3>
                 </div>
-                <p className="max-w-2xl leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                <p
+                  className="max-w-2xl leading-relaxed"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
                   {text}
                 </p>
               </motion.div>
@@ -259,7 +292,10 @@ export default function AboutPage() {
 
       <section className="border-t border-white/5 px-6 py-24 md:px-16 md:py-32 lg:px-24">
         <div className="mx-auto max-w-[1400px]">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--color-label)" }}>
+          <p
+            className="mb-4 text-xs font-semibold uppercase tracking-[0.2em]"
+            style={{ color: "var(--color-label)" }}
+          >
             Journey
           </p>
           <div className="grid gap-8 lg:grid-cols-3">
@@ -275,8 +311,13 @@ export default function AboutPage() {
                 <p className="mb-6 text-sm font-black uppercase tracking-[0.22em] text-[#ff6b35]">
                   {item.year}
                 </p>
-                <h3 className="mb-4 text-2xl font-bold tracking-tight">{item.title}</h3>
-                <p className="leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                <h3 className="mb-4 text-2xl font-bold tracking-tight">
+                  {item.title}
+                </h3>
+                <p
+                  className="leading-relaxed"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
                   {item.text}
                 </p>
               </motion.div>
@@ -289,7 +330,10 @@ export default function AboutPage() {
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div>
             <Code2 className="mb-5 h-9 w-9 text-[#ff6b35]" />
-            <h2 className="max-w-3xl text-3xl font-black uppercase tracking-tighter md:text-5xl" style={{ fontFamily: "var(--font-josefin)" }}>
+            <h2
+              className="max-w-3xl text-3xl font-black uppercase tracking-tighter md:text-5xl"
+              style={{ fontFamily: "var(--font-josefin)" }}
+            >
               Need a system that is built for real use?
             </h2>
           </div>

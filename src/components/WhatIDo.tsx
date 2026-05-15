@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import SplitHeader from "@/components/SplitHeader";
 
 const SERVICES = [
   {
@@ -47,7 +48,9 @@ const SERVICES_WITH_CHARS = SERVICES.map((service) => {
       words.push({
         isSpace: false,
         text: part,
-        chars: part.split("").map((char) => ({ char, globalIndex: globalCharCount++ })),
+        chars: part
+          .split("")
+          .map((char) => ({ char, globalIndex: globalCharCount++ })),
       });
     }
   }
@@ -55,7 +58,7 @@ const SERVICES_WITH_CHARS = SERVICES.map((service) => {
 });
 const TOTAL_CHARS = globalCharCount;
 
-type ProcessedService = typeof SERVICES_WITH_CHARS[0];
+type ProcessedService = (typeof SERVICES_WITH_CHARS)[0];
 
 function Char({
   char,
@@ -69,7 +72,9 @@ function Char({
   end: number;
 }) {
   const color = useTransform(progress, [start, end], ["#2a2a2a", "#9B9B8E"]); // #2a2a2a is --color-text-unlit, #9B9B8E is --color-text-muted
-  return <motion.span style={{ color, willChange: "color" }}>{char}</motion.span>;
+  return (
+    <motion.span style={{ color, willChange: "color" }}>{char}</motion.span>
+  );
 }
 
 export default function WhatIDo() {
@@ -89,9 +94,16 @@ export default function WhatIDo() {
     >
       {/* Header */}
       <div className="max-w-8xl mx-auto px-6 md:px-16 lg:px-24 pt-16 md:pt-20 pb-4">
-        <p className="font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm" style={{ color: 'var(--color-label)' }}>
-          What I Do
+        <p
+          className="font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2"
+          style={{ color: "var(--color-label)" }}
+        >
+          Turning Ideas Into Reality
         </p>
+        <SplitHeader
+          text="What I Do"
+          className="text-5xl pb-16 md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
+        />
       </div>
 
       {/* Service rows */}
@@ -152,33 +164,34 @@ function RowContent({
             color: dark ? "var(--color-bg)" : "var(--color-text-muted)",
           }}
         >
-          {dark || !progress ? (
-            service.label
-          ) : (
-            service.words.map((word, wi) =>
-              word.isSpace ? (
-                <span key={`sp-${wi}`}>&nbsp;</span>
-              ) : (
-                <span key={`w-${wi}`} style={{ display: "inline-block", whiteSpace: "nowrap" }}>
-                  {word.chars.map((c) => {
-                    const sweep = 0.15;
-                    const scale = 1 / (1 + sweep);
-                    const start = (c.globalIndex / TOTAL_CHARS) * scale;
-                    const end = start + sweep * scale;
-                    return (
-                      <Char
-                        key={c.globalIndex}
-                        char={c.char}
-                        progress={progress}
-                        start={start}
-                        end={end}
-                      />
-                    );
-                  })}
-                </span>
-              )
-            )
-          )}
+          {dark || !progress
+            ? service.label
+            : service.words.map((word, wi) =>
+                word.isSpace ? (
+                  <span key={`sp-${wi}`}>&nbsp;</span>
+                ) : (
+                  <span
+                    key={`w-${wi}`}
+                    style={{ display: "inline-block", whiteSpace: "nowrap" }}
+                  >
+                    {word.chars.map((c) => {
+                      const sweep = 0.15;
+                      const scale = 1 / (1 + sweep);
+                      const start = (c.globalIndex / TOTAL_CHARS) * scale;
+                      const end = start + sweep * scale;
+                      return (
+                        <Char
+                          key={c.globalIndex}
+                          char={c.char}
+                          progress={progress}
+                          start={start}
+                          end={end}
+                        />
+                      );
+                    })}
+                  </span>
+                ),
+              )}
         </h2>
       </div>
 
@@ -187,7 +200,7 @@ function RowContent({
         <motion.p
           key="desc"
           className="hidden md:block text-sm md:text-base font-medium max-w-xs lg:max-w-sm leading-snug text-right shrink-0"
-          style={{ color: 'var(--color-bg)' }}
+          style={{ color: "var(--color-bg)" }}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 10 }}

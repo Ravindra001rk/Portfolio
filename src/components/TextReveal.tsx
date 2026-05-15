@@ -2,6 +2,7 @@
 
 import React, { useRef, useMemo } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import SplitHeader from "@/components/SplitHeader";
 
 // Segments: accent:true → orange highlight
 const SEGMENTS = [
@@ -95,9 +96,18 @@ export default function TextReveal() {
     >
       <div className="max-w-8xl mx-auto px-6 md:px-16 lg:px-24">
         {/* Label */}
-        <p className="font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm mb-10 md:mb-14" style={{ color: 'var(--color-label)' }}>
-          About Me
-        </p>
+        <div className="max-w-7xl mx-auto w-full md:mx-0">
+          <p
+            className="font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2"
+            style={{ color: "var(--color-label)" }}
+          >
+            ABOUT ME
+          </p>
+          <SplitHeader
+            text="Who I Am"
+            className="text-5xl pb-16 md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
+          />
+        </div>
 
         {/* Highlight text — Josefin Sans (Avant Garde style) */}
         <p

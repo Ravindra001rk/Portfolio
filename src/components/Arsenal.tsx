@@ -15,7 +15,7 @@ import {
   SiAngular,
 } from "react-icons/si";
 import { motion, useAnimationFrame, useMotionValue, wrap } from "framer-motion";
-import SplitScrollTitle from "./SplitScrollTitle";
+import SplitHeader from "@/components/SplitHeader";
 
 const arsenalTools = [
   { name: "React", Icon: SiReact, color: "text-[#61DAFB]" },
@@ -78,10 +78,10 @@ export default function Arsenal() {
           >
             Technologies & Tools
           </p>
-          <SplitScrollTitle
+          <SplitHeader
             text="My Arsenal"
-            className="text-4xl md:text-6xl font-black mb-16 tracking-tighter"
-            style={{ color: "var(--color-text-primary)" }}
+            className="text-5xl pb-16 md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
+            
           />
         </div>
 

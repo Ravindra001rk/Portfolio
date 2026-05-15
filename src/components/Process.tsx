@@ -2,7 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ClipboardList, PenTool, Code2, Rocket } from "lucide-react";
+// import { motion } from "framer-motion";
+import SplitHeader from "@/components/SplitHeader";
+import { ClipboardList, PenTool, Rocket } from "lucide-react";
 
 const PROCESS_STEPS = [
   {
@@ -24,17 +26,7 @@ const PROCESS_STEPS = [
     imageShadow:
       "0 0 140px 40px rgba(147,51,234,0.12), inset 0 0 90px rgba(0,0,0,0.6)",
   },
-  {
-    title: "Build",
-    description: "Turn the plan into working pages, and reusable components.",
-    Icon: Code2,
-    imageUrl: "/build.png",
 
-    imageBg:
-      "radial-gradient(ellipse at 38% 36%, #dc2626 0%, #b91c1c 28%, #7f1d1d 55%, #3f0f0f 100%)",
-    imageShadow:
-      "0 0 140px 40px rgba(220,38,38,0.12), inset 0 0 90px rgba(0,0,0,0.6)",
-  },
   {
     title: "Launch",
     description: "Deploy the project and polish what real usage reveals.",
@@ -51,12 +43,12 @@ const PROCESS_STEPS = [
 const STEP_COUNT = PROCESS_STEPS.length;
 
 // Total extra scroll height = SCROLL_MULTIPLIER × 100vh
-// More = slower progression through steps
-const SCROLL_MULTIPLIER = 2.5;
+// More = slower progression through steps. Lower value = faster stick/unpin
+const SCROLL_MULTIPLIER = 1.2;
 
 // Height of each step row in px — keep in sync with the inline style below
 // Will be adjusted responsively in component
-const STEP_ROW_HEIGHT_MOBILE = 75;
+const STEP_ROW_HEIGHT_MOBILE = 95;
 const STEP_ROW_HEIGHT_DESKTOP = 130;
 
 export default function Process() {
@@ -115,9 +107,21 @@ export default function Process() {
     >
       {/* ── Sticky full-screen panel ──────────────────────────────────── */}
       <div
-        className="sticky top-0 h-screen w-full overflow-y-auto lg:overflow-hidden pt-12 sm:pt-16 lg:pt-20"
+        className="sticky top-0 h-screen w-full lg:overflow-hidden pt-12 sm:pt-16 lg:pt-12 lg:pb-12"
         style={{ backgroundColor: "#121212" }}
       >
+        <div className="px-6 sm:px-10 lg:px-24 pt-6">
+          <p
+            className="font-bold tracking-[0.2em] uppercase text-xs sm:text-sm mb-2"
+            style={{ color: "var(--color-label)" }}
+          >
+            Process
+          </p>
+          <SplitHeader
+            text="Process"
+            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none"
+          />
+        </div>
         <div className="flex flex-col lg:flex-row h-full w-full items-center lg:items-center gap-4 sm:gap-6 lg:gap-0 px-3 sm:px-6 lg:px-0">
           {/* ══════════════════════════════════════════════════════════
               LEFT — 3D visual / image
@@ -126,7 +130,7 @@ export default function Process() {
           ══════════════════════════════════════════════════════════ */}
           <div className="flex w-full lg:w-1/2 items-center justify-center flex-shrink-0 py-4 sm:py-6 lg:py-0 lg:h-full">
             {/* Dynamic image — changes per step with transition */}
-            <div className="relative w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] lg:w-[460px] lg:h-[460px] overflow-hidden ">
+            <div className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[360px] md:h-[360px] lg:w-[460px] lg:h-[460px] overflow-hidden rounded-full">
               {PROCESS_STEPS[activeIndex].imageUrl ? (
                 <Image
                   src={PROCESS_STEPS[activeIndex].imageUrl}
@@ -169,23 +173,23 @@ export default function Process() {
               <div
                 className="absolute"
                 style={{
-                  left: "1.375rem", // center of the 44px dot
-                  top: "1.375rem", // center of first dot
+                  left: "2rem", // center of the 64px dot
+                  top: "2rem", // center of first dot
                   width: "2px",
                   height: `${trackHeight}px`,
                 }}
               >
-                {/* Dim background track */}
+                {/* Dim background track (subtle white) */}
                 <div
                   className="absolute inset-0"
-                  style={{ background: "rgba(255,255,255,0.08)" }}
+                  style={{ background: "rgba(255,255,255,0.12)" }}
                 />
-                {/* Animated white fill — no transition for instant follow */}
+                {/* Animated white fill */}
                 <div
                   className="absolute top-0 left-0 w-full"
                   style={{
                     height: `${fillHeight}px`,
-                    background: "rgba(255,255,255,0.55)",
+                    background: "rgba(255,255,255,1)",
                     transition: "none",
                   }}
                 />
@@ -206,37 +210,44 @@ export default function Process() {
                     <div
                       className="relative z-10 flex-shrink-0 flex items-center justify-center rounded-full"
                       style={{
-                        width: "44px",
-                        height: "44px",
-                        background: isActive
-                          ? "rgba(255,255,255,0.10)"
-                          : "rgba(255,255,255,0.03)",
+                        width: "64px",
+                        height: "64px",
+                        background: "#000",
                         border: isActive
-                          ? "1.5px solid rgba(255,255,255,0.35)"
-                          : "1.5px solid rgba(255,255,255,0.08)",
-                        transition: "all 0.5s ease",
+                          ? "1.5px solid rgba(255,255,255,0.18)"
+                          : "1.2px solid rgba(255,255,255,0.08)",
+                        transition: "all 0.18s ease",
                         boxShadow: isCurrent
-                          ? "0 0 0 6px rgba(255,255,255,0.05)"
-                          : "none",
+                          ? "0 0 30px 8px rgba(255,255,255,0.06), inset 0 0 18px rgba(0,0,0,0.6)"
+                          : "0 0 18px 6px rgba(0,0,0,0.6)",
                       }}
                     >
+                      <span
+                        className="absolute inset-0 rounded-full pointer-events-none"
+                        style={{
+                          boxShadow: isCurrent
+                            ? "0 0 40px 12px rgba(255,255,255,0.06)"
+                            : "0 0 24px 8px rgba(255,255,255,0.02)",
+                        }}
+                      />
                       {/* Pulse on current */}
                       {isCurrent && (
                         <span
                           className="absolute inset-0 rounded-full animate-ping"
                           style={{
                             background: "rgba(255,255,255,0.07)",
-                            animationDuration: "1.8s",
+                            animationDuration: "1.2s",
                           }}
                         />
                       )}
                       <span
-                        className="relative z-10 font-mono text-[8px] sm:text-[10px] lg:text-[11px] font-semibold"
+                        className="relative z-10 font-mono font-semibold"
                         style={{
                           color: isActive
-                            ? "rgba(255,255,255,0.9)"
-                            : "rgba(255,255,255,0.18)",
-                          transition: "color 0.5s ease",
+                            ? "#ffffff"
+                            : "rgba(255,255,255,0.85)",
+                          transition: "color 0.18s ease",
+                          fontSize: isMobile ? "1rem" : "1.125rem",
                         }}
                       >
                         {String(i + 1).padStart(2, "0")}
@@ -247,10 +258,11 @@ export default function Process() {
                     <div
                       className="pt-0.5"
                       style={{
+                        paddingTop: isMobile ? "0.75rem" : "0.125rem",
                         transform: isCurrent
                           ? "translateX(4px)"
                           : "translateX(0)",
-                        transition: "transform 0.5s ease",
+                        transition: "transform 0.18s ease",
                       }}
                     >
                       {/* Title — big, bold, white when active */}
@@ -258,7 +270,7 @@ export default function Process() {
                         style={{
                           fontFamily: "var(--font-josefin)",
                           fontSize: isMobile
-                            ? "clamp(1rem, 4.5vw, 1.25rem)"
+                            ? "clamp(1.25rem, 6vw, 1.5rem)"
                             : "clamp(1.5rem, 2.2vw, 2.25rem)",
                           fontWeight: 700,
                           lineHeight: 1,
@@ -267,7 +279,7 @@ export default function Process() {
                             : isActive
                               ? "rgba(255,255,255,0.38)"
                               : "rgba(255,255,255,0.13)",
-                          transition: "color 0.5s ease",
+                          transition: "color 0.18s ease",
                         }}
                       >
                         {title}
@@ -277,9 +289,9 @@ export default function Process() {
                       <p
                         style={{
                           marginTop: "0.2rem",
-                          fontSize: isMobile ? "0.65rem" : "0.875rem",
+                          fontSize: isMobile ? "0.9rem" : "0.875rem",
                           lineHeight: 1.4,
-                          maxWidth: isMobile ? "20ch" : "28ch",
+                          maxWidth: isMobile ? "26ch" : "28ch",
                           color: isCurrent
                             ? "rgba(255,255,255,0.5)"
                             : "rgba(255,255,255,0.08)",
