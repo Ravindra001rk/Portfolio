@@ -14,21 +14,35 @@ const rotatingHeroWords = [
 export default function Hero() {
   const [activeWordIndex, setActiveWordIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const heroRef = useRef<HTMLElement | null>(null);
+  const blobRef = useRef<HTMLDivElement | null>(null);
 
   // Loader state
   const [loadProgress, setLoadProgress] = useState(0);
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
-    // Only show the loader when the user explicitly reloads the page
+    // Show the loader on initial navigation or explicit reload so the
+    // entry animation/progress is visible on first visit and reloads.
     let shouldShowLoader = false;
     try {
-      const navEntries = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
-      const navType = (navEntries?.[0]?.type || (performance as unknown as { navigation: { type: number } })?.navigation?.type) as string | number;
-      // 1 or "reload" means explicit full reload.
-      shouldShowLoader = navType === "reload" || navType === 1;
+      const navEntries = performance.getEntriesByType(
+        "navigation",
+      ) as PerformanceNavigationTiming[];
+      const navType = (navEntries?.[0]?.type ||
+        (performance as unknown as { navigation: { type: number } })?.navigation
+          ?.type) as string | number;
+      // Support both the string values from PerformanceNavigationTiming.type
+      // (e.g. "navigate", "reload") and the numeric legacy
+      // `performance.navigation.type` (0 = navigate, 1 = reload).
+      shouldShowLoader =
+        navType === "reload" ||
+        navType === 1 ||
+        navType === "navigate" ||
+        navType === 0;
     } catch {
-      shouldShowLoader = false;
+      // If detection fails, show the loader by default to avoid a flash.
+      shouldShowLoader = true;
     }
 
     if (!shouldShowLoader) {
@@ -52,6 +66,58 @@ export default function Hero() {
     return () => {
       clearTimeout(t);
       clearInterval(interval);
+    };
+  }, []);
+
+  // Cursor-following orange blob (lurk effect) — hero-only.
+  useEffect(() => {
+    if (!heroRef.current || !blobRef.current) return;
+    const hero = heroRef.current;
+    const blob = blobRef.current;
+
+    const defaultOffset = { x: -160, y: -160 };
+    const pos = {
+      x: defaultOffset.x,
+      y: defaultOffset.y,
+      tx: defaultOffset.x,
+      ty: defaultOffset.y,
+    };
+
+    let rafId = 0;
+
+    function onMove(e: MouseEvent) {
+      const rect = hero.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      // Lurk: do not place blob exactly under cursor — keep it slightly offset
+      pos.tx = mx + defaultOffset.x * 0.6;
+      pos.ty = my + defaultOffset.y * 0.6;
+    }
+
+    function onLeave() {
+      pos.tx = defaultOffset.x;
+      pos.ty = defaultOffset.y;
+    }
+
+    function animate() {
+      pos.x += (pos.tx - pos.x) * 0.12;
+      pos.y += (pos.ty - pos.y) * 0.12;
+      const dx = pos.tx - pos.x;
+      const dy = pos.ty - pos.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const scale = 1 + Math.min(dist / 1000, 0.07);
+      blob.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) scale(${scale})`;
+      rafId = requestAnimationFrame(animate);
+    }
+
+    hero.addEventListener("mousemove", onMove);
+    hero.addEventListener("mouseleave", onLeave);
+    rafId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      hero.removeEventListener("mousemove", onMove);
+      hero.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
@@ -188,6 +254,7 @@ export default function Hero() {
       {/* ── Hero Section ────────────────────────────────────────────── */}
       <section
         id="hero"
+        ref={heroRef}
         className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col"
       >
         {/* Grain overlay */}
@@ -199,8 +266,10 @@ export default function Hero() {
         {/* Accent glow blobs */}
         <div
           aria-hidden
-          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
+          ref={blobRef}
+          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full pointer-events-none z-0 will-change-transform"
           style={{
+            transform: "translate3d(-160px, -160px, 0)",
             background:
               "radial-gradient(circle, rgba(255,107,53,0.18) 0%, transparent 70%)",
           }}

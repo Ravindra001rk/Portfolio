@@ -1,187 +1,301 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { ClipboardList, PenTool, Code2, TestTube2, Rocket } from "lucide-react";
-import SplitScrollTitle from "./SplitScrollTitle";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { ClipboardList, PenTool, Code2, Rocket } from "lucide-react";
 
 const PROCESS_STEPS = [
   {
     title: "Plan",
     description:
-      "Define the goal, core features, user flow, data needs, and the cleanest path to build.",
+      "Define the goal, core features, and the cleanest path to build.",
     Icon: ClipboardList,
+    imageUrl: "/plan.png",
   },
   {
     title: "Design",
     description:
-      "Shape the layout, visual direction, and interaction details before jumping into code.",
+      "Shape the layout and interaction details before jumping into code.",
     Icon: PenTool,
+    imageUrl: "/design.png",
+
+    imageBg:
+      "radial-gradient(ellipse at 38% 36%, #9333ea 0%, #7e22ce 28%, #5b21b6 55%, #2d1b69 100%)",
+    imageShadow:
+      "0 0 140px 40px rgba(147,51,234,0.12), inset 0 0 90px rgba(0,0,0,0.6)",
   },
   {
     title: "Build",
-    description:
-      "Turn the plan into working pages, APIs, database models, and reusable components.",
+    description: "Turn the plan into working pages, and reusable components.",
     Icon: Code2,
-  },
-  {
-    title: "Test",
-    description:
-      "Check forms, edge cases, responsiveness, performance, and real user paths.",
-    Icon: TestTube2,
+    imageUrl: "/build.png",
+
+    imageBg:
+      "radial-gradient(ellipse at 38% 36%, #dc2626 0%, #b91c1c 28%, #7f1d1d 55%, #3f0f0f 100%)",
+    imageShadow:
+      "0 0 140px 40px rgba(220,38,38,0.12), inset 0 0 90px rgba(0,0,0,0.6)",
   },
   {
     title: "Launch",
-    description:
-      "Deploy the project, review production behavior, and polish what real usage reveals.",
+    description: "Deploy the project and polish what real usage reveals.",
     Icon: Rocket,
+    imageUrl: "/launch.png",
+
+    imageBg:
+      "radial-gradient(ellipse at 38% 36%, #059669 0%, #047857 28%, #064e3b 55%, #051b15 100%)",
+    imageShadow:
+      "0 0 140px 40px rgba(5,150,105,0.12), inset 0 0 90px rgba(0,0,0,0.6)",
   },
 ];
 
-const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const STEP_COUNT = PROCESS_STEPS.length;
+
+// Total extra scroll height = SCROLL_MULTIPLIER × 100vh
+// More = slower progression through steps
+const SCROLL_MULTIPLIER = 2.5;
+
+// Height of each step row in px — keep in sync with the inline style below
+// Will be adjusted responsively in component
+const STEP_ROW_HEIGHT_MOBILE = 75;
+const STEP_ROW_HEIGHT_DESKTOP = 130;
 
 export default function Process() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0); // 0 → 1
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile for responsive behavior
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const wrapper = wrapperRef.current;
+      if (!wrapper) return;
+      const scrollY = window.scrollY;
+      const top = wrapper.offsetTop;
+      const range = window.innerHeight * SCROLL_MULTIPLIER;
+
+      if (scrollY <= top) setProgress(0);
+      else if (scrollY >= top + range) setProgress(1);
+      else setProgress((scrollY - top) / range);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const activeIndex = Math.min(
+    Math.floor(progress * STEP_COUNT),
+    STEP_COUNT - 1,
+  );
+
+  const stepRowHeight = isMobile
+    ? STEP_ROW_HEIGHT_MOBILE
+    : STEP_ROW_HEIGHT_DESKTOP;
+
+  // Line fills from center of dot[0] to center of dot[STEP_COUNT-1]
+  const trackHeight = (STEP_COUNT - 1) * stepRowHeight; // px
+  const fillHeight = Math.min(
+    progress * (STEP_COUNT / (STEP_COUNT - 0.9)) * trackHeight,
+    trackHeight,
+  );
 
   return (
-    <section
-      id="process"
-      className="relative w-full overflow-hidden border-t border-white/5 bg-[#121212] py-24 md:py-32"
+    /* Wrapper — consumes extra scroll height so sticky panel stays pinned */
+    <div
+      ref={wrapperRef}
+      style={{ height: `${(1 + SCROLL_MULTIPLIER) * 100}vh` }}
+      className="relative"
     >
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute right-[-220px] top-10 h-[520px] w-[520px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-8xl px-6 md:px-16 lg:px-24">
-        <div className="mb-14 grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
-          <div>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm"
-              style={{ color: "var(--color-label)" }}
-            >
-              Process
-            </motion.p>
-            <SplitScrollTitle
-              text="How I Build"
-              className="font-black uppercase leading-none tracking-tighter text-5xl md:text-7xl lg:text-8xl"
-              style={{
-                color: "var(--color-text-primary)",
-                fontFamily: "var(--font-josefin)",
-              }}
-            />
+      {/* ── Sticky full-screen panel ──────────────────────────────────── */}
+      <div
+        className="sticky top-0 h-screen w-full overflow-y-auto lg:overflow-hidden pt-12 sm:pt-16 lg:pt-20"
+        style={{ backgroundColor: "#121212" }}
+      >
+        <div className="flex flex-col lg:flex-row h-full w-full items-center lg:items-center gap-4 sm:gap-6 lg:gap-0 px-3 sm:px-6 lg:px-0">
+          {/* ══════════════════════════════════════════════════════════
+              LEFT — 3D visual / image
+              Replace the placeholder below with your actual asset:
+                <img src="/globe.png" … />   or   <Spline … />
+          ══════════════════════════════════════════════════════════ */}
+          <div className="flex w-full lg:w-1/2 items-center justify-center flex-shrink-0 py-4 sm:py-6 lg:py-0 lg:h-full">
+            {/* Dynamic image — changes per step with transition */}
+            <div className="relative w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] lg:w-[460px] lg:h-[460px] overflow-hidden ">
+              {PROCESS_STEPS[activeIndex].imageUrl ? (
+                <Image
+                  src={PROCESS_STEPS[activeIndex].imageUrl}
+                  alt={PROCESS_STEPS[activeIndex].title}
+                  fill
+                  className="object-cover transition-all duration-500"
+                />
+              ) : (
+                <div
+                  className="absolute inset-0 rounded-full transition-all duration-500"
+                  style={{
+                    background: PROCESS_STEPS[activeIndex].imageBg,
+                    boxShadow: PROCESS_STEPS[activeIndex].imageShadow,
+                  }}
+                />
+              )}
+              {/* Tilted orbit ring — decorative */}
+              <div
+                className="absolute inset-0 rounded-full border border-white/[0.07] pointer-events-none"
+                style={{
+                  transform: "scale(1.12) rotateX(72deg) rotateZ(-15deg)",
+                }}
+              />
+            </div>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
-            className="max-w-xl text-base leading-relaxed md:text-lg lg:justify-self-end"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            A practical workflow for turning an idea into a real, reliable web
-            system without losing sight of speed, usability, and clean structure.
-          </motion.p>
-        </div>
-
-        <div className="grid overflow-hidden border-y border-white/[0.06] lg:grid-cols-3">
-          {PROCESS_STEPS.map(({ title, description, Icon }, index) => {
-            const isActive = activeIndex === index;
-
-            return (
-              <motion.button
-                key={title}
-                type="button"
-                onFocus={() => setActiveIndex(index)}
-                onBlur={() => setActiveIndex(null)}
-                onMouseEnter={() => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(null)}
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-8%" }}
-                transition={{
-                  duration: 0.65,
-                  ease: EASE,
-                  delay: index * 0.06,
+          {/* ══════════════════════════════════════════════════════════
+              RIGHT — vertical timeline (exact match to reference)
+          ══════════════════════════════════════════════════════════ */}
+          <div className="flex w-full lg:w-1/2 lg:h-full lg:items-center">
+            <div
+              className="relative w-full"
+              style={{
+                paddingRight: isMobile ? "1rem" : "4rem",
+                paddingLeft: "0.5rem",
+              }}
+            >
+              {/* ── Vertical track line ─────────────────────────────── */}
+              {/* Positioned at horizontal center of dot (dot = 44px wide → center = 22px = 1.375rem) */}
+              <div
+                className="absolute"
+                style={{
+                  left: "1.375rem", // center of the 44px dot
+                  top: "1.375rem", // center of first dot
+                  width: "2px",
+                  height: `${trackHeight}px`,
                 }}
-                className="group relative min-h-[260px] overflow-hidden border-b border-white/[0.06] p-6 text-left outline-none last:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0"
               >
-                <motion.span
-                  className="absolute inset-x-0 top-0 h-full origin-bottom bg-[#ff6b35]"
-                  initial={false}
-                  animate={{ scaleY: isActive ? 1 : 0 }}
-                  transition={{ duration: 0.35, ease: EASE }}
+                {/* Dim background track */}
+                <div
+                  className="absolute inset-0"
+                  style={{ background: "rgba(255,255,255,0.08)" }}
                 />
+                {/* Animated white fill — no transition for instant follow */}
+                <div
+                  className="absolute top-0 left-0 w-full"
+                  style={{
+                    height: `${fillHeight}px`,
+                    background: "rgba(255,255,255,0.55)",
+                    transition: "none",
+                  }}
+                />
+              </div>
 
-                <div className="relative z-10 flex h-full flex-col justify-between gap-10">
-                  <div className="flex items-start justify-between gap-4">
-                    <span
-                      className="text-[11px] font-semibold uppercase tracking-[0.24em] transition-colors"
+              {/* ── Step rows ───────────────────────────────────────── */}
+              {PROCESS_STEPS.map(({ title, description }, i) => {
+                const isActive = i <= activeIndex;
+                const isCurrent = i === activeIndex;
+
+                return (
+                  <div
+                    key={title}
+                    className="relative flex items-start gap-3 sm:gap-4 lg:gap-7"
+                    style={{ height: `${stepRowHeight}px` }}
+                  >
+                    {/* Dot — numbered circle, exactly like reference */}
+                    <div
+                      className="relative z-10 flex-shrink-0 flex items-center justify-center rounded-full"
                       style={{
-                        color: isActive
-                          ? "var(--color-bg)"
-                          : "var(--color-text-dim)",
-                      }}
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
-                      style={{
-                        borderColor: isActive
-                          ? "rgba(18,18,18,0.22)"
-                          : "rgba(255,255,255,0.1)",
+                        width: "44px",
+                        height: "44px",
                         background: isActive
-                          ? "rgba(18,18,18,0.08)"
+                          ? "rgba(255,255,255,0.10)"
                           : "rgba(255,255,255,0.03)",
-                        color: isActive
-                          ? "var(--color-bg)"
-                          : "var(--color-accent)",
+                        border: isActive
+                          ? "1.5px solid rgba(255,255,255,0.35)"
+                          : "1.5px solid rgba(255,255,255,0.08)",
+                        transition: "all 0.5s ease",
+                        boxShadow: isCurrent
+                          ? "0 0 0 6px rgba(255,255,255,0.05)"
+                          : "none",
                       }}
                     >
-                      <Icon className="h-5 w-5" />
-                    </span>
-                  </div>
+                      {/* Pulse on current */}
+                      {isCurrent && (
+                        <span
+                          className="absolute inset-0 rounded-full animate-ping"
+                          style={{
+                            background: "rgba(255,255,255,0.07)",
+                            animationDuration: "1.8s",
+                          }}
+                        />
+                      )}
+                      <span
+                        className="relative z-10 font-mono text-[8px] sm:text-[10px] lg:text-[11px] font-semibold"
+                        style={{
+                          color: isActive
+                            ? "rgba(255,255,255,0.9)"
+                            : "rgba(255,255,255,0.18)",
+                          transition: "color 0.5s ease",
+                        }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
 
-                  <div>
-                    <h3
-                      className="mb-4 font-black uppercase leading-none tracking-tighter text-4xl transition-colors md:text-5xl"
+                    {/* Text block */}
+                    <div
+                      className="pt-0.5"
                       style={{
-                        color: isActive
-                          ? "var(--color-bg)"
-                          : "var(--color-text-primary)",
-                        fontFamily: "var(--font-josefin)",
+                        transform: isCurrent
+                          ? "translateX(4px)"
+                          : "translateX(0)",
+                        transition: "transform 0.5s ease",
                       }}
                     >
-                      {title}
-                    </h3>
-                    <p
-                      className="text-sm font-medium leading-relaxed transition-colors"
-                      style={{
-                        color: isActive
-                          ? "rgba(18,18,18,0.78)"
-                          : "var(--color-text-muted)",
-                      }}
-                    >
-                      {description}
-                    </p>
+                      {/* Title — big, bold, white when active */}
+                      <h3
+                        style={{
+                          fontFamily: "var(--font-josefin)",
+                          fontSize: isMobile
+                            ? "clamp(1rem, 4.5vw, 1.25rem)"
+                            : "clamp(1.5rem, 2.2vw, 2.25rem)",
+                          fontWeight: 700,
+                          lineHeight: 1,
+                          color: isCurrent
+                            ? "rgba(255,255,255,1)"
+                            : isActive
+                              ? "rgba(255,255,255,0.38)"
+                              : "rgba(255,255,255,0.13)",
+                          transition: "color 0.5s ease",
+                        }}
+                      >
+                        {title}
+                      </h3>
+
+                      {/* Description — only clearly visible on current */}
+                      <p
+                        style={{
+                          marginTop: "0.2rem",
+                          fontSize: isMobile ? "0.65rem" : "0.875rem",
+                          lineHeight: 1.4,
+                          maxWidth: isMobile ? "20ch" : "28ch",
+                          color: isCurrent
+                            ? "rgba(255,255,255,0.5)"
+                            : "rgba(255,255,255,0.08)",
+                          transition: "color 0.5s ease",
+                        }}
+                      >
+                        {description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </motion.button>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

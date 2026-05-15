@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useMemo, useState } from "react";
 import Contact from "@/components/Contact";
 import { projects } from "@/data/projects";
 import Link from "next/link";
@@ -41,10 +41,27 @@ function SplitTitle({
 }
 
 export default function WorksPage() {
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+
+  const categories = useMemo(() => {
+    const groups = new Set<string>();
+    projects.forEach((p) => {
+      // prefer explicit categoryGroup, fallback to category string
+      if (p.categoryGroup) groups.add(p.categoryGroup);
+      else if (p.category) groups.add(p.category);
+    });
+    return ["All", ...Array.from(groups)];
+  }, []);
+
+  const filteredProjects = useMemo(() => {
+    if (activeCategory === "All") return projects;
+    return projects.filter(
+      (p) => (p.categoryGroup || p.category) === activeCategory,
+    );
+  }, [activeCategory]);
+
   return (
     <main className="bg-[#121212] min-h-screen text-white selection:bg-[#ff6b35] selection:text-black">
-
-
       {/* Hero Section for Works */}
       <section className="pt-40 pb-20 px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto relative z-20">
         <SplitTitle
@@ -63,10 +80,25 @@ export default function WorksPage() {
         </motion.p>
       </section>
 
-      {/* Projects Grid: 2 columns on PC */}
+      {/* Filter bar + Projects Grid: 2 columns on PC */}
       <section className="px-6 md:px-16 lg:px-24 pb-32 max-w-[1400px] mx-auto relative z-20">
+        <div className="flex flex-wrap items-center gap-3 mb-8">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${
+                activeCategory === cat
+                  ? "bg-[#ff6b35] text-black border-[#ff6b35]"
+                  : "bg-white/5 text-zinc-300 border-white/10"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 md:gap-12">
-          {projects.map((project, index) => (
+          {filteredProjects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 60 }}

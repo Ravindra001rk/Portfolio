@@ -32,6 +32,7 @@ export type Project = {
   id: string;
   slug: string;
   category: string;
+  categoryGroup?: string;
   title: string;
   shortDesc: string;
   tags: string[];
@@ -48,6 +49,7 @@ export const projects: Project[] = [
     slug: "id-card-system",
     featured: true,
     category: "Featured Case Study",
+    categoryGroup: "Printing",
     title: "A complete system for ID cards, photo retrieval and workflows.",
     shortDesc:
       "A full-stack platform handling thousands of Office & School ID card applications with bilingual forms, real-time tracking, and automated SMS notifications.",
@@ -115,6 +117,7 @@ export const projects: Project[] = [
     slug: "shabda-yatra-bookstore",
     featured: true,
     category: "Full Stack E-commerce",
+    categoryGroup: "E-commerce",
     title: "MERN Stack E-commerce Book Store",
     shortDesc:
       "A comprehensive online bookstore for fiction, non-fiction, and novels with a dynamic shopping experience.",
@@ -159,6 +162,7 @@ export const projects: Project[] = [
     slug: "vista-showcase",
     featured: false,
     category: "Award-Winning Frontend",
+    categoryGroup: "Printing",
     title: "Vista - Premium Showcase Site",
     shortDesc:
       "An immersive, award-winning frontend experience crafted with React, GSAP, and Framer Motion for stunning visual storytelling.",
@@ -203,6 +207,7 @@ export const projects: Project[] = [
     slug: "horizon-academy",
     featured: true,
     category: "Educational ERP / School Portal",
+    categoryGroup: "Education",
     title: "Horizon Academy - School Management System",
     shortDesc:
       "A comprehensive digital ecosystem for modern educational institutions, featuring automated workflows, role-based portals, and powerful administrative tools.",
@@ -249,6 +254,7 @@ export const projects: Project[] = [
     slug: "nexus-university",
     featured: true,
     category: "University Marketing Site",
+    categoryGroup: "Education",
     title: "Nexus University — Turn Your Ambition into Achievement",
     liveUrl: "https://nexus-wine-xi.vercel.app/",
 
